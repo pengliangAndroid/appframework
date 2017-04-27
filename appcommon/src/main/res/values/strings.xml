@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AppCommon</string>
+
+
+    <string name="permission_denied_hint">权限被禁止，无法使用该功能，打开设置页面后手动开启权限</string>
+    <string name="permission_setting_hint">权限被禁止，无法使用该功能，打开设置页面后手动开启权限！</string>
+    <string name="permission_ok">确认</string>
+    <string name="permission_cancel">取消</string>
+</resources>

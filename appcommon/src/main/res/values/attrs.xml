@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MultiSwipeRefreshLayout">
+        <attr name="foreground" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RatioImageView">
+        <attr name="imageRatio" format="float" />
+        <attr name="imageRatioType">
+            <enum name="widthHeight" value="1266" />
+            <enum name="heightWidth" value="2266" />
+        </attr>
+    </declare-styleable>
+
+
+    <attr name="list_background" format="reference" />
+    <attr name="text_color" format="color" />
+
+    <!-- CircleProgressBar -->
+    <declare-styleable name="CircleProgressBar">
+        <attr name="border_width" />
+        <attr name="border_color" />
+        <attr name="fill_color" format="color" />
+        <attr name="duration_second" format="integer" />
+    </declare-styleable>
+
+    <attr name="border_color" format="color" />
+    <attr name="border_width" format="dimension" />
+</resources>
