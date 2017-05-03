@@ -1,4 +1,4 @@
-package com.wstro.app.common.utils;
+package com.wstro.app.common.utils.rx;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

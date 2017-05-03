@@ -22,7 +22,7 @@
  * <http://www.gnu.org/philosophy/why-not-lgpl.html>.
  */
 
-package com.wstro.app.common.utils;
+package com.wstro.app.common.utils.rx;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
