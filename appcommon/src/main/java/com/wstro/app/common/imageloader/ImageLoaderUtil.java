@@ -34,7 +34,7 @@ public class ImageLoaderUtil {
         mStrategy = new GlideImageLoaderStrategy();
         mDefaultBuilder = new ImageLoaderConfig.Builder()
                 .strategy(LOAD_STRATEGY_NORMAL)
-                .placeHolder(R.mipmap.img_default_bg)
+                .placeHolder(R.mipmap.img_default_gray)
                 .type(PIC_SMALL);
     }
 

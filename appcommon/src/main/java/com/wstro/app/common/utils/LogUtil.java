@@ -2,6 +2,10 @@ package com.wstro.app.common.utils;
 
 import com.wstro.app.common.BuildConfig;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class LogUtil {
 
     /**
@@ -12,6 +16,8 @@ public class LogUtil {
     protected static final int DEBUG = 0;// 调试版本
     protected static final int BETA = 1;// 公开测试版
     protected static final int RELEASE = 2;// 发布版本
+
+    protected static final String LOG_FOLDER_NAME = "WLogs";// 文件夹名称
 
     private static int CURRENT_VERSION = BuildConfig.DEBUG ? 0 : 2;// 当前版本
 
@@ -297,6 +303,56 @@ public class LogUtil {
         // return new
         // StringBuilder().append(caller.getClassName()).append(".").append(caller.getMethodName()).append("().").append(caller.getLineNumber()).append(": ").append(msg).toString();
         return msg;
+    }
+
+
+    public static void f(String msg) {
+        f(LOG_FOLDER_NAME,msg);
+    }
+
+    public static void f(String folderName, String msg) {
+        FileWriter fileWriter = null;
+        File logFile = getLogFile(folderName, "logs");
+
+        try {
+            fileWriter = new FileWriter(logFile, true);
+            fileWriter.append(msg);
+            fileWriter.append("\r\n");
+            fileWriter.flush();
+
+            CloseUtils.closeQuietly(fileWriter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static File getLogFile(String folderName, String fileName) {
+
+        File folder = new File(folderName);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        int newFileCount = 0;
+        File newFile;
+        File existingFile = null;
+
+        newFile = new File(folder, String.format("%s_%s.log", fileName, newFileCount));
+        while (newFile.exists()) {
+            existingFile = newFile;
+            newFileCount++;
+            newFile = new File(folder, String.format("%s_%s.log", fileName, newFileCount));
+        }
+
+        if (existingFile != null) {
+            if (existingFile.length() >= 2 * 1024 * 1024) {
+                return newFile;
+            }
+            return existingFile;
+        }
+
+        return newFile;
     }
 
 }

@@ -65,17 +65,20 @@ public class CommonUtils {
         }
     }
 
-
-    public static String getDownloadFilePath(){
-        return Environment.getExternalStorageDirectory() + "/WinStrong/DownloadFile/";
+    public static String getFileRootPath(Context context){
+        return Environment.getExternalStorageDirectory() + "/Wstro/" + context.getPackageName();
     }
 
-    public static String getTempFilePath(){
-        return Environment.getExternalStorageDirectory() + "/WinStrong/TempFile/";
+    public static String getCacheFileRootPath(Context context){
+        return getFileRootPath(context) +"/cache/";
     }
 
-    public static String getAppDownloadPath(){
-        return Environment.getExternalStorageDirectory() + "/WinStrong/";
+    public static String getTempFileRootPath(Context context){
+        return getFileRootPath(context) +"/tmp/";
+    }
+
+    public static String getLogFilePath(Context context){
+        return getFileRootPath(context) +"/logs/";
     }
 
     /**
@@ -84,7 +87,7 @@ public class CommonUtils {
      * @param context
      * @return
      */
-    public static String getRealPath(Uri fileUrl,Context context){
+    public static String getRealPath(Uri fileUrl, Context context){
         String fileName = null;
         Uri filePathUri = fileUrl;
         if(fileUrl!= null){
@@ -108,13 +111,4 @@ public class CommonUtils {
         return fileName;
     }
 
-    private static long lastClickTime;
-    public synchronized static boolean isFastClick() {
-        long time = System.currentTimeMillis();
-        if ( time - lastClickTime < 1500) {
-            return true;
-        }
-        lastClickTime = time;
-        return false;
-    }
 }

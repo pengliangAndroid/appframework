@@ -41,7 +41,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.wstro.app.common.R;
@@ -406,10 +405,6 @@ public class DeviceUtils {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
 
-    }
-
-    public static boolean isEmpty(String str){
-        return TextUtils.isEmpty(str) || str.equals("null");
     }
 
     /**

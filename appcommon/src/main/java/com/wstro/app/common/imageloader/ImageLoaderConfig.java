@@ -54,7 +54,7 @@ public class ImageLoaderConfig {
         public Builder() {
             this.type = ImageLoaderUtil.PIC_SMALL;
             this.url = "";
-            this.placeHolder = R.mipmap.img_default_bg;
+            this.placeHolder = R.mipmap.img_default_gray;
             this.imgView = null;
             this.wifiStrategy = ImageLoaderUtil.LOAD_STRATEGY_NORMAL;
         }
