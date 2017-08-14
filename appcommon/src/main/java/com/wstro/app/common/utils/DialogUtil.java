@@ -2,12 +2,15 @@ package com.wstro.app.common.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Html;
 import android.view.View;
 
 public class DialogUtil {
+
+    private static ProgressDialog progressDialog;
 
     public static AlertDialog.Builder dialogBuilder(Context context, String title, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT);
@@ -69,5 +72,17 @@ public class DialogUtil {
         dialog.setCanceledOnTouchOutside(true);
         dialog.setOnDismissListener(dismissListener);
         return dialog;
+    }
+
+    public static void showProgressDialog(Context context,String message, boolean cancelable) {
+        progressDialog = ProgressDialog.show(context,"",message);
+        progressDialog.setCancelable(cancelable);
+    }
+
+    public static void stopProgressDialog() {
+        if(progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }

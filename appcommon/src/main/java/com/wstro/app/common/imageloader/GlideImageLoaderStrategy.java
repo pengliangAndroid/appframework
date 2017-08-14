@@ -2,6 +2,7 @@ package com.wstro.app.common.imageloader;
 
 import android.content.Context;
 
+import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.data.DataFetcher;
@@ -48,7 +49,14 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
      * load image with Glide
      */
     private void loadNormal(Context ctx, ImageLoaderConfig img) {
-        Glide.with(ctx).load(img.getUrl()).placeholder(img.getPlaceHolder()).into(img.getImgView());
+        DrawableTypeRequest<String> request = Glide.with(ctx).load(img.getUrl());
+        if(img.isCircle()){
+            request.crossFade(1000).into(img.getImgView());
+        }else{
+            request.crossFade(1000).error(img.getPlaceHolder())
+                    .placeholder(img.getPlaceHolder())
+                    .into(img.getImgView());
+        }
     }
 
 
@@ -56,7 +64,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
      * load cache image with Glide
      */
     private void loadCache(Context ctx, ImageLoaderConfig img) {
-        Glide.with(ctx).using(new StreamModelLoader<String>() {
+        DrawableTypeRequest<String> request = Glide.with(ctx).using(new StreamModelLoader<String>() {
             @Override
             public DataFetcher<InputStream> getResourceFetcher(final String model, int i, int i1) {
                 return new DataFetcher<InputStream>() {
@@ -81,7 +89,18 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
                     }
                 };
             }
-        }).load(img.getUrl()).placeholder(img.getPlaceHolder()).diskCacheStrategy(DiskCacheStrategy.ALL).into(img.getImgView());
+        }).load(img.getUrl());
+
+        if (img.isCircle()) {
+            request.crossFade(1000).into(img.getImgView());
+        } else {
+            request
+                    .error(img.getPlaceHolder())
+                    .placeholder(img.getPlaceHolder())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .crossFade(1000)
+                    .into(img.getImgView());
+        }
     }
 
 

@@ -9,6 +9,4 @@ import android.content.Context;
  */
 public interface BaseImageLoaderStrategy {
    void loadImage(Context ctx, ImageLoaderConfig img);
-
-
 }

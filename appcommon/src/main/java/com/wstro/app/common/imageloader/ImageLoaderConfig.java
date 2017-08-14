@@ -15,6 +15,7 @@ public class ImageLoaderConfig {
     private int placeHolder; //placeholder when fail to load pics
     private ImageView imgView; //ImageView instantce
     private int wifiStrategy;//load strategy ,wheather under wifi
+    private boolean isCircle;// is circle image
 
     private ImageLoaderConfig(Builder builder) {
         this.type = builder.type;
@@ -22,6 +23,7 @@ public class ImageLoaderConfig {
         this.placeHolder = builder.placeHolder;
         this.imgView = builder.imgView;
         this.wifiStrategy = builder.wifiStrategy;
+        this.isCircle = builder.isCircle;
     }
 
     public int getType() {
@@ -44,12 +46,17 @@ public class ImageLoaderConfig {
         return wifiStrategy;
     }
 
+    public boolean isCircle(){
+        return isCircle;
+    }
+
     public static class Builder {
         private int type;
         private String url;
         private int placeHolder;
         private ImageView imgView;
         private int wifiStrategy;
+        private boolean isCircle;
 
         public Builder() {
             this.type = ImageLoaderUtil.PIC_SMALL;
@@ -81,6 +88,11 @@ public class ImageLoaderConfig {
 
         public Builder strategy(int strategy) {
             this.wifiStrategy = strategy;
+            return this;
+        }
+
+        public Builder isCircle(boolean isCircle) {
+            this.isCircle = isCircle;
             return this;
         }
 

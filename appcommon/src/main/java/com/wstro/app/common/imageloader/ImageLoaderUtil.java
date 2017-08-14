@@ -57,8 +57,12 @@ public class ImageLoaderUtil {
         mStrategy.loadImage(context, img);
     }
 
-    public void loadImage(Context context, String url,ImageView imageView) {
-        mStrategy.loadImage(context, mDefaultBuilder.url(url).imgView(imageView).build());
+    public void loadImage(Context context, String url, ImageView imageView) {
+        mStrategy.loadImage(context, mDefaultBuilder.url(url).imgView(imageView).isCircle(false).build());
+    }
+
+    public void loadCircleImage(Context context, String url, ImageView imageView) {
+        mStrategy.loadImage(context, mDefaultBuilder.url(url).imgView(imageView).isCircle(true).build());
     }
 
     public void setLoadImgStrategy(BaseImageLoaderStrategy strategy) {

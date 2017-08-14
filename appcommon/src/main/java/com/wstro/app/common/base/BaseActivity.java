@@ -1,23 +1,32 @@
 package com.wstro.app.common.base;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.trello.rxlifecycle.LifecycleTransformer;
+import com.trello.rxlifecycle.RxLifecycle;
+import com.trello.rxlifecycle.android.ActivityEvent;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
+import com.wstro.app.common.utils.DialogUtil;
 import com.wstro.app.common.utils.StatusBarCompat;
 
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by pengl on 2016/9/6.
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    private static int statusBarColor = -1;
+    private final BehaviorSubject lifecycleSubject = BehaviorSubject.create();
 
-    protected ProgressDialog progressDialog;
+    private static int statusBarColor = -1;
 
     protected boolean isStatusCompat = true;
 
@@ -27,7 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(getLayoutId());
-
         context = this;
 
         BaseActivityManager.getInstance().addActivity(this);
@@ -36,9 +44,29 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         compatStatusBar();
 
+        lifecycleSubject.onNext(ActivityEvent.CREATE);
+
         this.initToolbar(savedInstanceState);
         this.initViewsAndEvents(savedInstanceState);
         this.initData();
+    }
+
+    @NonNull
+    @CheckResult
+    public final Observable lifecycle() {
+        return this.lifecycleSubject.asObservable();
+    }
+
+    @NonNull
+    @CheckResult
+    public final LifecycleTransformer bindUntilEvent(@NonNull ActivityEvent event) {
+        return RxLifecycle.bindUntilEvent(this.lifecycleSubject, event);
+    }
+
+    @NonNull
+    @CheckResult
+    public final  LifecycleTransformer bindToLifecycle() {
+        return RxLifecycleAndroid.bindActivity(this.lifecycleSubject);
     }
 
     private void compatStatusBar(){
@@ -48,13 +76,37 @@ public abstract class BaseActivity extends AppCompatActivity {
                 statusBarColor = getResources().getColor(resourceId);
             }
 
-            //LogUtil.d(this.getClass().getSimpleName() + ":" + statusBarColor);
             StatusBarCompat.compat(this, statusBarColor);
         }
     }
 
+    @CallSuper
+    protected void onStart() {
+        super.onStart();
+        lifecycleSubject.onNext(ActivityEvent.START);
+    }
+
+    @CallSuper
+    protected void onResume() {
+        super.onResume();
+        lifecycleSubject.onNext(ActivityEvent.RESUME);
+    }
+
+    @CallSuper
+    protected void onPause() {
+        lifecycleSubject.onNext(ActivityEvent.PAUSE);
+        super.onPause();
+    }
+
+    @CallSuper
+    protected void onStop() {
+       lifecycleSubject.onNext(ActivityEvent.STOP);
+        super.onStop();
+    }
+
     @Override
     protected void onDestroy() {
+        lifecycleSubject.onNext(ActivityEvent.DESTROY);
         super.onDestroy();
 
         ButterKnife.unbind(this);
@@ -88,19 +140,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showProgressDialog(String message, boolean cancelable) {
-        progressDialog = ProgressDialog.show(getContext(),"",message);
-        progressDialog.setCancelable(cancelable);
+        DialogUtil.showProgressDialog(this,message,cancelable);
     }
 
     public void stopProgressDialog() {
-        if(progressDialog != null)
-            progressDialog.dismiss();
+        DialogUtil.stopProgressDialog();
     }
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getContext(),message,Toast.LENGTH_SHORT);
         //toast.setGravity(Gravity.CENTER,0,0);
         toast.show();
+        //ToastUtils.showToast(this,message);
     }
 
     public void showToast(int messageId) {
