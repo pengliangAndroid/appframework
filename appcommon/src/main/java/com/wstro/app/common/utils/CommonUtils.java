@@ -9,10 +9,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import java.util.Collection;
+
 /**
  * Created by pengl on 2016/5/20.
  */
 public class CommonUtils {
+    public static boolean isEmptyArray(Collection collection){
+        return collection == null || collection.size() == 0;
+    }
+
     public static boolean isEmpty(String str){
         return TextUtils.isEmpty(str) || str.equals("null");
     }
