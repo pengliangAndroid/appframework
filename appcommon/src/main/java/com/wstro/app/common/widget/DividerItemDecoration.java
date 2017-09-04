@@ -2,7 +2,6 @@ package com.wstro.app.common.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -12,12 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.wstro.app.common.R;
+
 /**
  * Created by pengl on 2016/9/7.
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
-    private static final int[] ATTRS = new int[] { android.R.attr.listDivider };
+    private static final int defaultDivider = R.drawable.divider_item_shape;
 
     public static final int HORIZONTAL_LIST = LinearLayout.HORIZONTAL;
 
@@ -71,9 +72,9 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      * @param context context
      */
     private void setDefaultDivider(Context context) {
-        final TypedArray typedArray = context.obtainStyledAttributes(ATTRS);
-        this.mDivider = typedArray.getDrawable(0);
-        typedArray.recycle();
+        //final TypedArray typedArray = context.obtainStyledAttributes(ATTRS);
+        this.mDivider = context.getResources().getDrawable(defaultDivider);
+        //typedArray.recycle();
     }
 
 

@@ -1,7 +1,6 @@
 package com.wstro.app.common.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -10,19 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.wstro.app.common.utils.LogUtil;
+import com.wstro.app.common.R;
 
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
 {
-
-    private static final int[] ATTRS = new int[] { android.R.attr.listDivider };
+    private static final int defaultDivider = R.drawable.divider_item_shape;
     private Drawable mDivider;
 
     public DividerGridItemDecoration(Context context)
     {
-        final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        mDivider = a.getDrawable(0);
-        a.recycle();
+        mDivider = context.getResources().getDrawable(defaultDivider);
     }
 
     @Override

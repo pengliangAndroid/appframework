@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.trello.rxlifecycle.LifecycleTransformer;
-import com.trello.rxlifecycle.RxLifecycle;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 import com.wstro.app.common.utils.DialogUtil;
@@ -18,6 +17,7 @@ import com.wstro.app.common.utils.StatusBarCompat;
 
 import butterknife.ButterKnife;
 import rx.Observable;
+import rx.functions.Func1;
 import rx.subjects.BehaviorSubject;
 
 /**
@@ -57,10 +57,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         return this.lifecycleSubject.asObservable();
     }
 
-    @NonNull
+   /* @NonNull
     @CheckResult
     public final LifecycleTransformer bindUntilEvent(@NonNull ActivityEvent event) {
         return RxLifecycle.bindUntilEvent(this.lifecycleSubject, event);
+    }*/
+
+    @NonNull
+    public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final ActivityEvent event) {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> sourceObservable) {
+                Observable<ActivityEvent> compareLifecycleObservable =
+                        lifecycleSubject.takeFirst(new Func1<ActivityEvent, Boolean>() {
+                            @Override
+                            public Boolean call(ActivityEvent activityLifeCycleEvent) {
+                                return activityLifeCycleEvent.equals(event);
+                            }
+                        });
+                return sourceObservable.takeUntil(compareLifecycleObservable);
+            }
+        };
     }
 
     @NonNull
