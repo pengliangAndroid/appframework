@@ -24,6 +24,26 @@ public class CommonUtils {
     }
 
     /**
+     * 高亮部分文字
+     * @param html "<font color='#FF0000'>%s</font>"
+     * @param name
+     * @param text
+     * @return
+     */
+    public static String highlightText(String html,String name,String text){
+        if(TextUtils.isEmpty(text)){
+            return name;
+        }
+
+        if(name.contains(text)){
+            String replaceHtml = html.replace("%s", text);
+            name = name.replaceAll(text, replaceHtml);
+        }
+
+        return name;
+    }
+
+    /**
      * 二位数的格式化，若只有一位，前面添个0
      * @param value
      * @return

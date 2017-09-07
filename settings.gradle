@@ -1,1 +1,1 @@
-include ':appcommon'
+include ':appcommon', ':appsimple'
