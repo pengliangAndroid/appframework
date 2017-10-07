@@ -1,39 +1,64 @@
 package com.wstro.app.common.utils;
 
+
+import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wstro.app.common.R;
 
-/**
- * ToastUtils
- * 
- *
- */
 public class ToastUtils {
+    private static Toast toast;
 
-    private static Toast mToast;
-
-    public static void showToast(Context context,String text) {
-        showToast(context,text,Toast.LENGTH_SHORT);
-    }
-
-    public void cancelToast() {
-        if (mToast != null) {
-            mToast.cancel();
-            mToast = null;
+    public static void showToast(Context context,String message) {
+        if(toast == null) {
+            toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        }else{
+            toast.setText(message);
         }
+        toast.show();
     }
 
-    public static void showToast(Context context,CharSequence text,int duration){
-        if(mToast == null) {
-            mToast = Toast.makeText(context, text, duration);
-            //Toast toast = Toast.makeText(getContext(),message,Toast.LENGTH_SHORT);
-            //toast.setGravity(Gravity.CENTER,0,0);
-            //toast.show();
+    public void showToast(Context context,int messageId) {
+        showToast(context,context.getResources().getString(messageId));
+    }
+
+
+    public static void showCustomToast(Activity context,int msgId) {
+        showCustomToast(context,context.getResources().getString(msgId));
+    }
+
+    public static void showCustomToast(Activity context,String message) {
+        showCustomToast(context,message, Toast.LENGTH_SHORT);
+    }
+
+    public static void showCustomToast(Activity context, CharSequence text, int duration) {
+        if(toast == null) {
+            //toast = Toast.makeText(this, text, duration);
+            toast = new Toast(context);
+
+            View view = context.getLayoutInflater().inflate(R.layout.toast_custom_view, null);
+            TextView textView = (TextView) view
+                    .findViewById(R.id.tv_msg);
+            textView.setText(text);
+            toast.setView(view);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.setDuration(duration);
         } else {
-            mToast.setText(text);
-            mToast.setDuration(duration);
+            TextView textView = (TextView) toast.getView()
+                    .findViewById(R.id.tv_msg);
+            textView.setText(text);
         }
-        mToast.show();
+
+        toast.show();
+    }
+
+    public static void cancelToast() {
+        if(toast != null) {
+            toast.cancel();
+        }
     }
 }

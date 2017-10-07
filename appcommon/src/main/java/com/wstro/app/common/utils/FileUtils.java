@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -21,6 +22,23 @@ public class FileUtils {
     public static final int SIZETYPE_KB = 2;// 获取文件大小单位为KB的double值
     public static final int SIZETYPE_MB = 3;// 获取文件大小单位为MB的double值
     public static final int SIZETYPE_GB = 4;// 获取文件大小单位为GB的double值
+
+
+    public static String getFileRootPath(Context context){
+        return Environment.getExternalStorageDirectory() + "/Wstro/" + context.getPackageName();
+    }
+
+    public static String getCacheFileRootPath(Context context){
+        return getFileRootPath(context) +"/cache/";
+    }
+
+    public static String getTempFileRootPath(Context context){
+        return getFileRootPath(context) +"/tmp/";
+    }
+
+    public static String getLogFilePath(Context context){
+        return getFileRootPath(context) +"/logs/";
+    }
 
     /**
      * 拷贝assets目录下的文件

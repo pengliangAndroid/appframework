@@ -68,16 +68,7 @@ public class BaseActivityManager {
         }
     }
 
-    public synchronized  void clearAmount(int number) {
-        int size = activities.size();
-        if (number <= size) {
-            for (int i = size-1; i>size-number-1; i--) {
-                Activity activity = activities.get(i);
-                removeActivity(activity);
-                activity.finish();
-            }
-        }
-    }
+
     public int getSize() {
         if (activities == null) {
             return 0;

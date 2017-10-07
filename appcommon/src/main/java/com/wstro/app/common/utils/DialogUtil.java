@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
+
+import com.wstro.app.common.R;
 
 public class DialogUtil {
 
-    private static ProgressDialog progressDialog;
+    private static Dialog progressDialog;
 
     public static AlertDialog.Builder dialogBuilder(Context context, String title, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT);
@@ -23,7 +26,7 @@ public class DialogUtil {
         return builder;
     }
 
-    public static AlertDialog.Builder dialogBuilder(Context context, String title, String msg, int i) {
+    public static AlertDialog.Builder dialogBuilder(Context context, String title, String msg, boolean isHtml) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context,AlertDialog.THEME_HOLO_LIGHT);
         if (msg != null) {
             builder.setMessage(Html.fromHtml(msg));
@@ -85,4 +88,28 @@ public class DialogUtil {
             progressDialog = null;
         }
     }
+
+    public static void showCustomProgressDialog(Context context) {
+        showCustomProgressDialog(context, R.string.msg_loading);
+    }
+
+    public static void showCustomProgressDialog(Context context, int msgId) {
+        showCustomProgressDialog(context,context.getString(msgId));
+    }
+
+    public static void showCustomProgressDialog(Context context,String msg) {
+        if (progressDialog == null) {
+            progressDialog = new Dialog(context, R.style.ProgressDialogStyle);
+        }
+        progressDialog.setContentView(R.layout.dialog_custom_loading);
+        progressDialog.setCancelable(true);
+        progressDialog.getWindow().setBackgroundDrawableResource(
+                android.R.color.transparent);
+        TextView text = (TextView) progressDialog
+                .findViewById(R.id.tv_loading_msg);
+        text.setText(msg);
+        progressDialog.show();
+    }
+
+
 }

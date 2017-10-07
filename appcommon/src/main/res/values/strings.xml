@@ -6,4 +6,10 @@
     <string name="permission_setting_hint">权限被禁止，无法使用该功能，打开设置页面后手动开启权限！</string>
     <string name="permission_ok">确认</string>
     <string name="permission_cancel">取消</string>
+
+    <string name="msg_loading">正在加载</string>
+
+    <string name="load_end">没有更多的数据了</string>
+    <string name="load_failed">加载失败，点击重试</string>
+    <string name="loading">正在加载...</string>
 </resources>

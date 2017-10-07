@@ -7,13 +7,15 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
+import com.wstro.app.common.R;
 import com.wstro.app.common.utils.DialogUtil;
-import com.wstro.app.common.utils.StatusBarCompat;
+import com.wstro.app.common.utils.ToastUtils;
 
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -26,10 +28,6 @@ import rx.subjects.BehaviorSubject;
 public abstract class BaseActivity extends AppCompatActivity {
     private final BehaviorSubject lifecycleSubject = BehaviorSubject.create();
 
-    private static int statusBarColor = -1;
-
-    protected boolean isStatusCompat = true;
-
     protected Context context;
 
     @Override
@@ -41,8 +39,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         BaseActivityManager.getInstance().addActivity(this);
 
         ButterKnife.bind(this);
-
-        compatStatusBar();
 
         lifecycleSubject.onNext(ActivityEvent.CREATE);
 
@@ -57,11 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return this.lifecycleSubject.asObservable();
     }
 
-   /* @NonNull
-    @CheckResult
-    public final LifecycleTransformer bindUntilEvent(@NonNull ActivityEvent event) {
-        return RxLifecycle.bindUntilEvent(this.lifecycleSubject, event);
-    }*/
 
     @NonNull
     public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final ActivityEvent event) {
@@ -86,16 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return RxLifecycleAndroid.bindActivity(this.lifecycleSubject);
     }
 
-    private void compatStatusBar(){
-        if (isStatusCompat) {
-            if(statusBarColor == -1) {
-                int resourceId = getResources().getIdentifier("colorPrimary", "color", getPackageName());
-                statusBarColor = getResources().getColor(resourceId);
-            }
-
-            StatusBarCompat.compat(this, statusBarColor);
-        }
-    }
 
     @CallSuper
     protected void onStart() {
@@ -126,15 +107,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         lifecycleSubject.onNext(ActivityEvent.DESTROY);
         super.onDestroy();
 
-        ButterKnife.unbind(this);
+        closeKeyboard();
+
+        cancelToast();
+        stopProgressDialog();
         BaseActivityManager.getInstance().removeActivity(this);
         context = null;
     }
 
-
-    public void setStatusCompat(boolean statusCompat) {
-        isStatusCompat = statusCompat;
-    }
 
     protected abstract int getLayoutId();
 
@@ -164,18 +144,49 @@ public abstract class BaseActivity extends AppCompatActivity {
         DialogUtil.stopProgressDialog();
     }
 
+    private void showCustomProgressDialog() {
+        showCustomProgressDialog(R.string.msg_loading);
+    }
+
+    private void showCustomProgressDialog(int msgId) {
+        showCustomProgressDialog(getString(msgId));
+    }
+
+    private void showCustomProgressDialog(String msg) {
+        DialogUtil.showCustomProgressDialog(this,msg);
+    }
+
     public void showToast(String message) {
-        Toast toast = Toast.makeText(getContext(),message,Toast.LENGTH_SHORT);
-        //toast.setGravity(Gravity.CENTER,0,0);
-        toast.show();
-        //ToastUtils.showToast(this,message);
+        ToastUtils.showToast(this,message);
     }
 
     public void showToast(int messageId) {
         showToast(getString(messageId));
     }
 
-    public Context getContext() {
-        return this;
+    public void showCustomToast(int msgId) {
+        showCustomToast(getString(msgId));
     }
+
+    public void showCustomToast(String message) {
+        showCustomToast(message,Toast.LENGTH_SHORT);
+    }
+
+    public void showCustomToast(CharSequence text, int duration) {
+        ToastUtils.showCustomToast(this,text,duration);
+
+    }
+
+    public void cancelToast() {
+        ToastUtils.cancelToast();
+    }
+
+    public void closeKeyboard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

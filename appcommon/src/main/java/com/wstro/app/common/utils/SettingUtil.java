@@ -1,13 +1,10 @@
 package com.wstro.app.common.utils;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 
 import com.wstro.app.common.CommonConstants;
 import com.wstro.app.common.model.Font;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,39 +62,11 @@ public class SettingUtil {
         SPUtils.put(ctx, CommonConstants.CURRENT_FONT_SIZE, size);
     }
 
-//    public static int getThemeId(String theme) {
-//        Field f;
-//        try {
-//            f = R.style.class.getField(theme);
-//            return f.getInt(null);
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
-//
-//    public static int getAttrId(String attr) {
-//        Field f;
-//        try {
-//            f = R.attr.class.getField(attr);
-//            return f.getInt(null);
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
-
-    /**
-     * 清理缓存
-     */
+    /*
+        /**
+         * 清理缓存
+         */
+    /*
     public static void countDirSizeTask(final File dir, final CountDirSizeListener listener) {
         new Thread() {
             public void run() {
@@ -207,7 +176,7 @@ public class SettingUtil {
             }
         }
         return deletedFiles;
-    }
+    }*/
 
 
 }

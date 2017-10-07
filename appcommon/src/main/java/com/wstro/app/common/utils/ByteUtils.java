@@ -1,26 +1,9 @@
 package com.wstro.app.common.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.widget.ImageView;
-
 /**
  * Created by pengl on 2016/1/13.
  */
 public class ByteUtils {
-
-    /**
-     * 二位数的格式化，若只有一位，前面添个0
-     * @param value
-     * @return
-     */
-    public static String formatOct(int value) {
-        if (value < 10) {
-            return "0" + value;
-        }
-        return Integer.toString(value);
-    }
-
 
     //byte 与 int 的相互转换
     public static byte intToByte(int x) {
@@ -140,111 +123,5 @@ public class ByteUtils {
         return ret;
     }
 
-    public static void releaseImageResource(ImageView circleImageView) {
-        if (circleImageView != null && circleImageView.getDrawable() != null) {
-            Bitmap oldBitmap = ((BitmapDrawable) circleImageView.getDrawable())
-                    .getBitmap();
-            circleImageView.setImageDrawable(null);
-            if (oldBitmap != null) {
-                oldBitmap.recycle();
-                oldBitmap = null;
-            }
-        }
-    }
-
-   /* *//**
-     * 根据USB通信协议得到字节数组
-     * @return
-     *//*
-    public static byte[] getConfigBytes(){
-        byte[] data = new byte[9];
-        byte byte0 = (byte) 0;
-
-        // 模式置1处理
-        switch (MachineStatus.sModeType) {
-            case 1:
-                byte0 = (byte) 0;
-                break;
-            case 2:
-                byte0 = (byte) 3;
-                break;
-            case 3:
-                byte0 = (byte) 5;
-                break;
-            case 4:
-                byte0 = (byte) 6;
-                break;
-            case 5:
-                byte0 = (byte) 2;
-                break;
-            case 6:
-                byte0 = (byte) 1;
-                break;
-        }
-
-        if (MachineStatus.sAnionOn) {
-            byte0 = (byte) ((byte0) ^ (1 << 3));
-        }
-
-        if (MachineStatus.sForceHeat) {
-            byte0 = (byte) ((byte0) ^ (1 << 4));
-        }
-
-        if (MachineStatus.sHeatOn) {
-            byte0 = (byte) ((byte0) ^ (1 << 5));
-        }
-
-        data[0] = byte0;
-        // 排风档位
-        byte byte1 = (byte) MachineStatus.sExhaustGear;
-        // 新风
-        byte byte2 = (byte) MachineStatus.sFreshGear;
-
-        data[1] = uniteNumber(byte2, byte1);
-
-        // 定时设置
-        Time t = new Time(); // or Time t=new Time("GMT+8"); 加上Time Zone资料。
-        long time = System.currentTimeMillis();
-        t.set(MachineStatus.sSystemTimeDiff + time); // 取得系统时间
-        int hour = t.hour; // 0-23
-        int minute = t.minute;
-        int second = t.second;
-
-        data[2] = (byte) hour;
-        data[3] = (byte) minute;
-        data[4] = (byte) second;
-        if (MachineStatus.sTimeOn) {
-            data[7] = (byte) (MachineStatus.sTimeOnHour + 128);
-        } else {
-            data[7] = (byte) MachineStatus.sTimeOnHour;
-        }
-        data[8] = (byte) MachineStatus.sTimeOnMinute;
-        if (MachineStatus.sTimeOff) {
-            data[5] = (byte) (MachineStatus.sTimeOffHour + 128);
-        } else {
-            data[5] = (byte) MachineStatus.sTimeOffHour;
-        }
-        data[6] = (byte) MachineStatus.sTimeOffMinute;
-
-        byte[] content = uniteBytes(new byte[]{Constants.ORDER_HEAD,
-
-                Constants.ORDER_SETTING, 9 }, data);
-
-        for (int m = 0, n = 0; m < 9; m++) {
-            n += data[m];
-            if (n > 255) {
-                n = n - 255;
-            }
-
-            if (m == 8) {
-                content = uniteBytes(content, new byte[] { (byte) n });
-            }
-        }
-
-        content = uniteBytes(content,
-                new byte[] { Constants.ORDER_FOOTER });
-        return content;
-    }
-*/
 
 }

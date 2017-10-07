@@ -34,8 +34,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -80,6 +79,31 @@ public class DeviceUtils {
 
 
     /**
+     * sp 转化为 px
+     *
+     * @param context context
+     * @param spValue spValue
+     * @return int
+     */
+    public static int p2px(Context context, float spValue) {
+        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * scale + 0.5f);
+    }
+
+
+    /**
+     * px 转化为 sp
+     *
+     * @param context context
+     * @param pxValue pxValue
+     */
+    public static int px2sp(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+
+    /**
      * 获取设备宽度（px）
      *
      * @param context context
@@ -105,25 +129,6 @@ public class DeviceUtils {
      */
     public static boolean isSDCardAvailable() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-    }
-
-
-    /**
-     * 是否有网
-     *
-     * @param context context
-     * @return boolean
-     */
-    public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager
-                    = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
-        }
-        return false;
     }
 
 
@@ -281,6 +286,47 @@ public class DeviceUtils {
 
 
     /**
+     * 判断应用是否已经启动
+     * @param context 一个context
+     * @param packageName 要判断应用的包名
+     * @return boolean
+     */
+    public static boolean isAppAlive(Context context, String packageName){
+        ActivityManager activityManager =
+                (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processInfos
+                = activityManager.getRunningAppProcesses();
+        for(int i = 0; i < processInfos.size(); i++){
+            if(processInfos.get(i).processName.equals(packageName)){
+                Log.i("NotificationLaunch",
+                        String.format("the %s is running, isAppAlive return true", packageName));
+                return true;
+            }
+        }
+        Log.i("NotificationLaunch",
+                String.format("the %s is not running, isAppAlive return false", packageName));
+        return false;
+    }
+
+    /**
+     * Gps是否打开
+     * @param context
+     * @return
+     */
+    public static boolean isGpsOpen(Context context){
+        LocationManager lManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        if (!lManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || !lManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
      * 创建App文件夹
      *
      * @param appName appName
@@ -394,8 +440,6 @@ public class DeviceUtils {
      * @param apkFullFileName  apk path+apk name
      */
     public static void installApk(Context context,String apkFullFileName) {
-//        String saveFileName = Environment.getExternalStorageDirectory().getAbsolutePath()
-//                + "/Download/" + downloadFileName;
         File apkFile = new File(apkFullFileName);
         if (!apkFile.exists()) {
             return;
@@ -408,14 +452,31 @@ public class DeviceUtils {
     }
 
     /**
-     * 二位数的格式化，若只有一位，前面添个0
-     * @param value
-     * @return
+     * 应用分享图片
+     * @param context
+     * @param uri
+     * @param title
      */
-    public static String formatOct(int value) {
-        if (value < 10) {
-            return "0" + value;
-        }
-        return Integer.toString(value);
+    public static void shareImage(Context context, Uri uri, String title) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("image/jpeg");
+        context.startActivity(Intent.createChooser(shareIntent, title));
     }
+
+    /**
+     * 应用分享
+     * @param context
+     * @param content
+     */
+    public static void share(Context context, String content) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        context.startActivity(Intent.createChooser(intent, "分享"));
+    }
+
 }

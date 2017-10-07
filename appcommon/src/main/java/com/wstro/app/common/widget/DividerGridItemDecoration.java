@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.wstro.app.common.R;
 
+
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
 {
     private static final int defaultDivider = R.drawable.divider_item_shape;
@@ -20,6 +21,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
     {
         mDivider = context.getResources().getDrawable(defaultDivider);
     }
+
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state)
@@ -85,7 +87,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
     }
 
     private boolean isLastColum(RecyclerView parent, int pos, int spanCount,
-            int childCount)
+                                int childCount)
     {
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager)
@@ -115,7 +117,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
     }
 
     private boolean isLastRaw(RecyclerView parent, int pos, int spanCount,
-            int childCount)
+                              int childCount)
     {
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager)

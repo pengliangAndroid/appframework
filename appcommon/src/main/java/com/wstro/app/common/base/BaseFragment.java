@@ -81,7 +81,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
 
         if (this.rootView.getParent() != null) {
             ViewGroup parent = (ViewGroup) this.rootView.getParent();
