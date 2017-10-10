@@ -51,14 +51,21 @@ public class SettingUtil {
         return (String) SPUtils.get(ctx, CommonConstants.CURRENT_FONT_PATH, "");
     }
 
-    /**
-     * 设置字号
-     */
-    public static int getCurrentFontSize(Context ctx) {
-        return (int) SPUtils.get(ctx, CommonConstants.CURRENT_FONT_SIZE, 0);
+
+    public static String getCurrentLocale(Context ctx) {
+        return (String) SPUtils.get(ctx, CommonConstants.CURRENT_LOCALE_NAME,"zh");
     }
 
-    public static void setCurrentFontSize(Context ctx, int size) {
+    public static void setCurrentLocale(Context ctx, String locale) {
+        SPUtils.put(ctx, CommonConstants.CURRENT_LOCALE_NAME, locale);
+    }
+
+
+    public static float getCurrentFontSize(Context ctx) {
+        return (float) SPUtils.get(ctx, CommonConstants.CURRENT_FONT_SIZE, 1.0f);
+    }
+
+    public static void setCurrentFontSize(Context ctx, float size) {
         SPUtils.put(ctx, CommonConstants.CURRENT_FONT_SIZE, size);
     }
 

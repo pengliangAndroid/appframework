@@ -5,8 +5,10 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wstro.app.common.CommonConstants;
 import com.wstro.app.common.data.db.DataBaseHelper;
 import com.wstro.app.common.data.db.LoginUser;
+import com.wstro.app.common.utils.SettingUtil;
 
 import java.util.List;
 
@@ -32,6 +34,9 @@ public abstract class AbstractDataManager {
 
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
+
+        CommonConstants.CURRENT_FONT_SCALE = SettingUtil.getCurrentFontSize(context);
+        CommonConstants.CURRENT_LOCALE = SettingUtil.getCurrentLocale(context);
     }
 
     public void destroy(){

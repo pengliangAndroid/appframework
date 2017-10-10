@@ -1,6 +1,8 @@
 package com.wstro.app.common.base;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.CheckResult;
@@ -13,9 +15,12 @@ import android.widget.Toast;
 import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
+import com.wstro.app.common.CommonConstants;
 import com.wstro.app.common.R;
 import com.wstro.app.common.utils.DialogUtil;
 import com.wstro.app.common.utils.ToastUtils;
+
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -45,6 +50,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.initToolbar(savedInstanceState);
         this.initViewsAndEvents(savedInstanceState);
         this.initData();
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config = res.getConfiguration();
+        //1.0 设置正常字体大小的倍数
+        config.fontScale = CommonConstants.CURRENT_FONT_SCALE;
+
+        if(CommonConstants.CURRENT_LOCALE.equals(Locale.CHINESE.getLanguage())) {
+            config.locale = Locale.CHINESE;
+        }else{
+            config.locale = Locale.ENGLISH;
+        }
+        res.updateConfiguration(config,res.getDisplayMetrics());
+
+        return res;
     }
 
     @NonNull

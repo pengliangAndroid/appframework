@@ -11,4 +11,47 @@
     <include layout="@layout/include_def_toolbar"/>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Hello World"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Yes this is beautiful World"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I am editText"
+            android:textColor="@color/black_4C"
+            android:layout_margin="10dp"
+            android:textSize="15sp"
+            />
+
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_margin="10dp"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title"
+            />
+
+    </LinearLayout>
+
+
 </LinearLayout>

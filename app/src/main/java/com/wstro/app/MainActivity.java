@@ -1,11 +1,19 @@
 package com.wstro.app;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.wstro.app.common.base.BaseAppToolbarActivity;
+import com.wstro.app.settings.SettingsActivity;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseAppToolbarActivity {
 
+
+    @BindView(R.id.btn_settings)
+    Button btnSettings;
 
     @Override
     protected int getLayoutId() {
@@ -14,6 +22,8 @@ public class MainActivity extends BaseAppToolbarActivity {
 
     @Override
     protected void initViewsAndEvents(Bundle savedInstanceState) {
+        titleText.setText(getString(R.string.app_name_title));
+
     }
 
     @Override
@@ -26,5 +36,11 @@ public class MainActivity extends BaseAppToolbarActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+
+    @OnClick(R.id.btn_settings)
+    public void onViewClicked() {
+        SettingsActivity.start(this);
     }
 }
