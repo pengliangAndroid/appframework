@@ -13,3 +13,28 @@
 + 通用工具utils包，包含日志，文件、时间，数据加解密，权限处理等处理类
 
 + 通用视图widget包，recyclerview、commonAdapter、dialog、popupwindow等处理类
+
+
+
+ ## 基本用法
+**Step 1. 添加JitPack仓库**
+在当前项目等根目录下的 `build.gradle` 文件中添加如下内容:
+
+``` gradle
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+
+**Step 2. 添加项目依赖**
+``` gradle
+dependencies {
+    compile('com.github.pengliangAndroid:appframework:1.5'){
+        exclude group : 'com.google.code.findbugs'
+    }
+}
+```
