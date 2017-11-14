@@ -166,15 +166,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         DialogUtil.stopProgressDialog();
     }
 
-    private void showCustomProgressDialog() {
+    public void showCustomProgressDialog() {
         showCustomProgressDialog(R.string.msg_loading);
     }
 
-    private void showCustomProgressDialog(int msgId) {
+    public void showCustomProgressDialog(int msgId) {
         showCustomProgressDialog(getString(msgId));
     }
 
-    private void showCustomProgressDialog(String msg) {
+    public void showCustomProgressDialog(String msg) {
         DialogUtil.showCustomProgressDialog(this,msg);
     }
 

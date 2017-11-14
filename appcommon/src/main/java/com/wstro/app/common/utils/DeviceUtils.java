@@ -39,6 +39,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -477,6 +478,24 @@ public class DeviceUtils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Intent.EXTRA_TEXT, content);
         context.startActivity(Intent.createChooser(intent, "分享"));
+    }
+
+    /**
+     * 得到外部文件的URI
+     * @param context
+     * @param file
+     * @return
+     */
+    public static Uri getExternalFileUri(Context context, File file){
+        Uri contentUri;
+        //判断是否是AndroidN以及更高的版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            contentUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", file);
+        } else {
+            contentUri = Uri.fromFile(file);
+        }
+
+        return contentUri;
     }
 
 }
