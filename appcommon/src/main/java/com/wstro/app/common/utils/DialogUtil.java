@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Html;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wstro.app.common.R;
@@ -105,6 +108,13 @@ public class DialogUtil {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(
                 android.R.color.transparent);
+
+        ProgressBar progressBar = (ProgressBar) progressDialog.findViewById(R.id.loading_progress);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            Drawable drawable = context.getApplicationContext().getResources().getDrawable(R.drawable.progress_loading_v23);
+            (progressBar).setIndeterminateDrawable(drawable);
+        }
+
         TextView text = (TextView) progressDialog
                 .findViewById(R.id.tv_loading_msg);
         text.setText(msg);

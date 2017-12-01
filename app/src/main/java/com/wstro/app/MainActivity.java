@@ -24,7 +24,7 @@ public class MainActivity extends BaseAppToolbarActivity {
     protected void initViewsAndEvents(Bundle savedInstanceState) {
         titleText.setText(getString(R.string.app_name_title));
 
-        //showCustomProgressDialog("xxx");
+        showCustomProgressDialog("xxx");
 
     }
 
