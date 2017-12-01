@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -247,6 +248,18 @@ public class StatusBarUtil {
     public static int getNavigationHeight(Context context) {
         int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
+    }
+
+    public static void paddingStatusBar(View view) {
+        int height = StatusBarUtil.getStatusBarHeight(view.getContext());
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = height;
+
+        view.setLayoutParams(params);
+        //在sdk 19以上添加statusBar padding
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
 

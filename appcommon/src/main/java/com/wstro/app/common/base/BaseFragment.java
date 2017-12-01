@@ -24,7 +24,6 @@
 
 package com.wstro.app.common.base;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,6 +31,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.wstro.app.common.R;
+import com.wstro.app.common.utils.DialogUtil;
+import com.wstro.app.common.utils.ToastUtils;
 
 import butterknife.ButterKnife;
 
@@ -44,8 +47,6 @@ public abstract class BaseFragment extends Fragment {
     protected View rootView;
 
     protected Context context;
-
-    protected ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,24 +120,47 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showProgressDialog(String message, boolean cancelable) {
-        progressDialog = ProgressDialog.show(context,"",message);
-        progressDialog.setCancelable(cancelable);
+        DialogUtil.showProgressDialog(getHoldingActivity(),message,cancelable);
     }
 
     public void stopProgressDialog() {
-        if(progressDialog != null)
-            progressDialog.dismiss();
+        DialogUtil.stopProgressDialog();
+    }
+
+    public void showCustomProgressDialog() {
+        showCustomProgressDialog(R.string.msg_loading);
+    }
+
+    public void showCustomProgressDialog(int msgId) {
+        showCustomProgressDialog(getString(msgId));
+    }
+
+    public void showCustomProgressDialog(String msg) {
+        DialogUtil.showCustomProgressDialog(getHoldingActivity(),msg);
     }
 
     public void showToast(String message) {
-        Toast toast = Toast.makeText(context,message,Toast.LENGTH_SHORT);
-        //toast.setGravity(Gravity.CENTER,0,0);
-        toast.show();
+        ToastUtils.showToast(getHoldingActivity(),message);
     }
 
     public void showToast(int messageId) {
         showToast(getString(messageId));
     }
 
+    public void showCustomToast(int msgId) {
+        showCustomToast(getString(msgId));
+    }
 
+    public void showCustomToast(String message) {
+        showCustomToast(message,Toast.LENGTH_SHORT);
+    }
+
+    public void showCustomToast(CharSequence text, int duration) {
+        ToastUtils.showCustomToast(getHoldingActivity(),text,duration);
+
+    }
+
+    public void cancelToast() {
+        ToastUtils.cancelToast();
+    }
 }

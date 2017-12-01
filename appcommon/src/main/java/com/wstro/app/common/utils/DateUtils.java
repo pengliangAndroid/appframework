@@ -364,4 +364,109 @@ public class DateUtils {
 
         return 0;
     }
+
+
+
+    /**
+     * 得到前面的修饰符
+     * @param date
+     * @return
+     */
+    public static String getDateString(Date date) {
+        Date curDate = new Date();
+        long splitTime = curDate.getTime() - date.getTime();
+
+        String preDate = null;
+        if (splitTime < (3 * ONE_DAY)) {
+            if (splitTime > 2 * ONE_DAY) {
+                preDate = date2Week(date) + " ";
+            } else if(splitTime > ONE_DAY){
+                preDate = "昨天 ";
+            } else{
+                preDate = "";
+            }
+
+            return preDate + date2HHmm(date);
+        }else{
+            preDate = date2MMdd(date) ;
+            return preDate;
+        }
+    }
+
+    public static String getHHMMDateString(Date date) {
+        Date curDate = new Date();
+        long splitTime = curDate.getTime() - date.getTime();
+
+        String preDate = null;
+        if (splitTime < (3 * ONE_DAY)) {
+
+            if(!isSameDay(date,curDate)){
+                preDate = date2Week(date) + " ";
+            }else{
+                preDate = "";
+            }
+           /* if (splitTime > 2 * ONE_DAY) {
+                preDate = date2Week(date) + " ";
+            } else if(splitTime > ONE_DAY){
+                preDate = "昨天 ";
+            } else{
+                preDate = "";
+            }*/
+            return preDate + date2HHmm(date);
+        }else{
+            if(!isSameYear(date,curDate)){
+                preDate = date2yyyyMMdd(date);
+            }else{
+                preDate = date2MMdd(date) ;
+            }
+
+            return preDate + " " + date2HHmm(date);
+        }
+    }
+
+    private static boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+
+        /*boolean isSameYear = cal1.get(Calendar.YEAR) == cal2
+                .get(Calendar.YEAR);
+        boolean isSameMonth = isSameYear
+                && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);*/
+        boolean isSameDate = cal1.get(Calendar.DAY_OF_MONTH) == cal2
+                .get(Calendar.DAY_OF_MONTH);
+
+        return isSameDate;
+    }
+
+    private static boolean isSameYear(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+
+        boolean isSameYear = cal1.get(Calendar.YEAR) == cal2
+                .get(Calendar.YEAR);
+
+        return isSameYear;
+    }
+
+    public static String getDateString(String dateString) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return getDateString(dateFormat.parse(dateString));
+    }
+
+
+
+    public static String date2Week(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        return new SimpleDateFormat("星期").format(date) + WEEK[dayOfWeek - 1];
+    }
+
+
 }

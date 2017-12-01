@@ -24,20 +24,36 @@ public class FileUtils {
     public static final int SIZETYPE_GB = 4;// 获取文件大小单位为GB的double值
 
 
-    public static String getFileRootPath(Context context){
+    public static String getAppRootFilePath(Context context){
         return Environment.getExternalStorageDirectory() + "/Wstro/" + context.getPackageName();
     }
 
+    public static String getFileRootPath(Context context){
+        return Environment.getExternalStorageDirectory() + "/Wstro/";
+    }
+
     public static String getCacheFileRootPath(Context context){
-        return getFileRootPath(context) +"/cache/";
+        return getAppRootFilePath(context) +"/cache/";
     }
 
     public static String getTempFileRootPath(Context context){
-        return getFileRootPath(context) +"/tmp/";
+        return getAppRootFilePath(context) +"/tmp/";
+    }
+
+    public static String getDownloadFileRootPath(Context context){
+        return getAppRootFilePath(context) +"/download/";
     }
 
     public static String getLogFilePath(Context context){
-        return getFileRootPath(context) +"/logs/";
+        return getAppRootFilePath(context) +"/logs/";
+    }
+
+    public static String getAppDefaultCacheDir(Context context){
+        if(context.getExternalCacheDir() != null){
+            return context.getExternalCacheDir().getPath();
+        }else{
+            return context.getCacheDir().getPath();
+        }
     }
 
     /**

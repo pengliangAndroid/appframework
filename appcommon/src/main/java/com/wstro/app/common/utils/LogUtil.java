@@ -5,6 +5,11 @@ import com.wstro.app.common.BuildConfig;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class LogUtil {
 
@@ -310,12 +315,33 @@ public class LogUtil {
         f(LOG_FOLDER_NAME,msg);
     }
 
+    public static void f(Throwable ex) {
+        f(LOG_FOLDER_NAME,ex);
+    }
+
+    public static void f(String folderName,Throwable ex) {
+        Writer writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+        ex.printStackTrace(printWriter);
+        Throwable cause = ex.getCause();
+        while (cause != null) {
+            cause.printStackTrace(printWriter);
+            cause = cause.getCause();
+        }
+        printWriter.close();
+
+        String msg = writer.toString();
+        f(folderName,msg);
+    }
+
     public static void f(String folderName, String msg) {
         FileWriter fileWriter = null;
         File logFile = getLogFile(folderName, "logs");
 
         try {
             fileWriter = new FileWriter(logFile, true);
+            fileWriter.append(toDateString(System.currentTimeMillis()));
+            fileWriter.append("\r\n");
             fileWriter.append(msg);
             fileWriter.append("\r\n");
             fileWriter.flush();
@@ -326,6 +352,13 @@ public class LogUtil {
         }
     }
 
+    private static String toDateString(long timeMilli){
+        Calendar calc = Calendar.getInstance();
+        calc.setTimeInMillis(timeMilli);
+        return String.format(Locale.CHINESE, "%04d.%02d.%02d %02d:%02d:%02d:%03d",
+                calc.get(Calendar.YEAR), calc.get(Calendar.MONTH) + 1, calc.get(Calendar.DAY_OF_MONTH),
+                calc.get(Calendar.HOUR_OF_DAY), calc.get(Calendar.MINUTE), calc.get(Calendar.SECOND), calc.get(Calendar.MILLISECOND));
+    }
 
     private static File getLogFile(String folderName, String fileName) {
 
