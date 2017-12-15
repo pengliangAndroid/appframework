@@ -33,7 +33,7 @@ allprojects {
 **Step 2. 添加项目依赖**
 ``` gradle
 dependencies {
-    compile('com.github.pengliangAndroid:appframework:1.5'){
+    compile('com.github.pengliangAndroid:appframework:1.7'){
         exclude group : 'com.google.code.findbugs'
     }
 }
