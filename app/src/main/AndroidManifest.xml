@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.wstro.app">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -22,8 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".settings.SettingsActivity">
+        <activity android:name=".settings.SettingsActivity" android:theme="@style/Theme.Swipe.Back.NoActionBar">
         </activity>
+
+
+        <meta-data
+            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            tools:node="remove" />
+
+        <meta-data
+            android:name="com.wstro.app.component.glide.MyGlideModule"
+            android:value="GlideModule" />
+
     </application>
 
 </manifest>

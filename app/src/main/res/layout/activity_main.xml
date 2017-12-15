@@ -51,6 +51,66 @@
             android:text="@string/settings_title"
             />
 
+        <FrameLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:id="@+id/iv_image"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+            <FrameLayout
+                android:visibility="visible"
+                android:id="@+id/fl_progress"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_gravity="center"
+                    style="@android:style/Widget.ProgressBar"
+                    android:indeterminateDrawable="@drawable/round_progress_bg"
+                    android:indeterminateDuration="1800"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+                <TextView
+                    android:id="@+id/tv_progress"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:text="0%"/>
+
+            </FrameLayout>
+
+            <ProgressBar
+                android:layout_marginTop="60dp"
+                style="@android:style/Widget.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.wstro.app.widget.RoundProgressBar
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:id="@+id/round_progress_bar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+
+
+        </FrameLayout>
+
+
+
     </LinearLayout>
 
 

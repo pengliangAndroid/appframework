@@ -59,11 +59,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         //1.0 设置正常字体大小的倍数
         config.fontScale = CommonConstants.CURRENT_FONT_SCALE;
 
-        if(CommonConstants.CURRENT_LOCALE.equals(Locale.CHINESE.getLanguage())) {
-            config.locale = Locale.CHINESE;
-        }else{
+        /*if(!config.locale.getLanguage().equals(Locale.CHINESE.getLanguage())){
             config.locale = Locale.ENGLISH;
-        }
+        }else{*/
+            if(CommonConstants.CURRENT_LOCALE.equals(Locale.CHINESE.getLanguage())) {
+                config.locale = Locale.CHINESE;
+            }else{
+                config.locale = Locale.ENGLISH;
+            }
+        //}
+
         res.updateConfiguration(config,res.getDisplayMetrics());
 
         return res;

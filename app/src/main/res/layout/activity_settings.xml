@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<com.gw.swipeback.SwipeBackLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                                  android:id="@+id/swipeBackLayout"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  app:directionMode="left"
+                                  app:maskAlpha="125"
+                                  app:swipeBackFactor="0.5">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +15,7 @@
     android:id="@+id/activity_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/include_def_toolbar"/>
@@ -22,6 +32,7 @@
             android:padding="12dp"
             android:textSize="15sp"
             android:text="@string/settings_font"
+            android:textColor="?attr/themeTextColor"
             />
 
     </LinearLayout>
@@ -44,6 +55,53 @@
             android:padding="12dp"
             android:textSize="15sp"
             android:text="@string/settings_language"
+            android:textColor="?attr/themeTextColor"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/creamy_light"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_skin_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_skin_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:text="@string/settings_skin_set"
+            android:textColor="?attr/themeTextColor"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/creamy_light"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_theme_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_theme_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:text="@string/settings_theme_night_set"
+            android:textColor="?attr/themeTextColor"
             />
 
     </LinearLayout>
@@ -55,3 +113,4 @@
         />
 
 </LinearLayout>
+</com.gw.swipeback.SwipeBackLayout>

@@ -21,5 +21,8 @@ public class WApplication extends Application{
         super.onCreate();
 
         DataManager.get().init(this);
+
+
+
     }
 }

@@ -3,11 +3,12 @@ package com.wstro.app.data;
 import android.content.Context;
 
 import com.wstro.app.common.data.AbstractDataManager;
-import com.wstro.app.common.data.HttpHelper;
 import com.wstro.app.common.data.PreferencesHelper;
+import com.wstro.app.common.data.RetrofitHelper;
 import com.wstro.app.common.data.db.DataBaseHelper;
 
 import hugo.weaving.DebugLog;
+import okhttp3.OkHttpClient;
 
 /**
  * ClassName: DataManager <br/>
@@ -24,7 +25,11 @@ public class DataManager extends AbstractDataManager{
 
     private static final String SP_NAME = "settings";
 
+    private static final String BASE_DOMAIN = "http://192.168.1.2";
+
     private static DataManager instance = null;
+
+    private RetrofitHelper retrofitHelper;
 
     private DataManager(){}
 
@@ -42,8 +47,16 @@ public class DataManager extends AbstractDataManager{
 
     @DebugLog
     @Override
-    protected HttpHelper buildHttpHelper(Context context) {
-        return new HttpHelper(context);
+    protected RetrofitHelper buildRetrofitHelper(Context context) {
+        retrofitHelper = new RetrofitHelper(context,BASE_DOMAIN);
+        return retrofitHelper;
+    }
+
+    public OkHttpClient getOKHttpClient(){
+        if(retrofitHelper == null)
+            return null;
+
+        return retrofitHelper.getOkHttpClient();
     }
 
     public static DataManager get(){
@@ -61,6 +74,8 @@ public class DataManager extends AbstractDataManager{
     public void destroy(){
         super.destroy();
 
+        if(retrofitHelper != null)
+            retrofitHelper.destroy();
         instance = null;
     }
 

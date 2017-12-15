@@ -3,6 +3,7 @@ package com.wstro.app.settings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import com.wstro.app.common.CommonConstants;
 import com.wstro.app.common.base.BaseActivityManager;
 import com.wstro.app.common.base.BaseAppToolbarActivity;
 import com.wstro.app.common.utils.DialogUtil;
+import com.wstro.app.common.utils.LogUtil;
+import com.wstro.app.common.utils.SPUtils;
 import com.wstro.app.common.utils.SettingUtil;
 
 import java.util.Locale;
@@ -26,6 +29,11 @@ public class SettingsActivity extends BaseAppToolbarActivity {
     TextView tvFont;
     @BindView(R.id.tv_language)
     TextView tvLanguage;
+    @BindView(R.id.tv_skin_select)
+    TextView tvSkinSelect;
+    @BindView(R.id.tv_theme_select)
+    TextView tvThemeSelect;
+
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);
@@ -38,18 +46,28 @@ public class SettingsActivity extends BaseAppToolbarActivity {
 
     @Override
     protected int getLayoutId() {
+        curThemeMode = (int) SPUtils.get(this,"themeMode",1);
+        LogUtil.d("curThemeMode:"+curThemeMode);
+        setTheme(curThemeMode == 2 ? R.style.NightTheme : R.style.DayTheme);
         return R.layout.activity_settings;
     }
 
     @Override
     protected void initViewsAndEvents(Bundle bundle) {
+        //mSwipeBackLayout = new SwipeBackLayout(this);
+        //mSwipeBackLayout.attachToActivity(this);
+
         titleText.setText(getString(R.string.settings_title));
+
+        tvThemeSelect.setText(getText(curThemeMode == 2 ? R.string.settings_theme_day_set :
+                R.string.settings_theme_night_set));
     }
 
     @Override
     protected void initData() {
         fontScale = SettingUtil.getCurrentFontSize(this);
-        curLanguage = SettingUtil.getCurrentLocale(this);
+        Configuration config = context.getResources().getConfiguration();
+        curLanguage = SettingUtil.getCurrentLocale(this,config.locale.getLanguage());
     }
 
     @Override
@@ -90,6 +108,7 @@ public class SettingsActivity extends BaseAppToolbarActivity {
 
                             titleText.setTextSize(16 * scale);
                             tvFont.setTextSize(15 * scale);
+                            tvLanguage.setTextSize(15 * scale);
 
                             changeScale(scale);
                         }
@@ -167,9 +186,10 @@ public class SettingsActivity extends BaseAppToolbarActivity {
                 .show();
     }
 
+    int curThemeMode = 1;
 
 
-    @OnClick({R.id.ll_font, R.id.ll_language})
+    @OnClick({R.id.ll_font, R.id.ll_language,R.id.ll_theme_select})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_font:
@@ -177,6 +197,20 @@ public class SettingsActivity extends BaseAppToolbarActivity {
                 break;
             case R.id.ll_language:
                 displayLanguageDialog();
+                break;
+            case R.id.ll_theme_select:
+                if(curThemeMode == 2) {
+                    tvThemeSelect.setText(getText(R.string.settings_theme_day_set));
+                    curThemeMode = 1;
+                    SPUtils.put(context,"themeMode",curThemeMode);
+                    recreate();
+                }else{
+
+                    tvThemeSelect.setText(getText(R.string.settings_theme_night_set));
+                    curThemeMode = 2;
+                    SPUtils.put(context,"themeMode",curThemeMode);
+                    recreate();
+                }
                 break;
         }
     }

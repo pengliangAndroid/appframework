@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme">
@@ -17,5 +18,24 @@
         <item name="titleMargin">0dp</item>
     </style>
 
+    
+    <style name="DayTheme" parent="BaseAppTheme">
+        <item name="themeBgColor">@color/white</item>
+        <item name="themeTextColor">@color/black</item>
+    </style>
+
+    <style name="NightTheme" parent="BaseAppTheme">
+        <item name="themeBgColor">@color/black_4C</item>
+        <item name="themeTextColor">@color/white_deep</item>
+    </style>
+
+    <style name="MyProgressBarStyle" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/round_progress_bg</item>
+    </style>
+
+    <style name="Theme.Swipe.Back.NoActionBar" parent="BaseAppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>

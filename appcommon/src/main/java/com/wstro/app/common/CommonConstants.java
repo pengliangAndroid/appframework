@@ -12,7 +12,6 @@ public class CommonConstants {
     public static final String CURRENT_LOCALE_NAME = "current_locale_name";
 
 
-
     public static final float FONT_SMALL_SCALE = 0.8f;
     public static final float FONT_SMALL_MIDDLE_SCALE = 0.9f;
     public static final float FONT_NORMAL_SCALE = 1f;

@@ -51,9 +51,12 @@ public class SettingUtil {
         return (String) SPUtils.get(ctx, CommonConstants.CURRENT_FONT_PATH, "");
     }
 
-
     public static String getCurrentLocale(Context ctx) {
-        return (String) SPUtils.get(ctx, CommonConstants.CURRENT_LOCALE_NAME,"zh");
+        return getCurrentLocale(ctx,"zh");
+    }
+
+    public static String getCurrentLocale(Context ctx,String defaultName) {
+        return (String) SPUtils.get(ctx, CommonConstants.CURRENT_LOCALE_NAME,defaultName);
     }
 
     public static void setCurrentLocale(Context ctx, String locale) {

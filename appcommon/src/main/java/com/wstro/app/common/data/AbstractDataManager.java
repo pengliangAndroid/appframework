@@ -1,6 +1,7 @@
 package com.wstro.app.common.data;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -20,32 +21,33 @@ public abstract class AbstractDataManager {
 
     private PreferencesHelper preferencesHelper;
     private DataBaseHelper dataBaseHelper;
-    private HttpHelper httpHelper;
+    private RetrofitHelper retrofitHelper;
     private Gson gson;
 
     protected abstract PreferencesHelper buildPreferencesHelper(Context context);
     protected abstract DataBaseHelper buildDataBaseHelper(Context context);
-    protected abstract HttpHelper buildHttpHelper(Context context);
+    protected abstract RetrofitHelper buildRetrofitHelper(Context context);
 
     public void init(Context context) {
         preferencesHelper = buildPreferencesHelper(context);
         dataBaseHelper = buildDataBaseHelper(context);
-        httpHelper = buildHttpHelper(context);
+        retrofitHelper = buildRetrofitHelper(context);
 
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
 
         CommonConstants.CURRENT_FONT_SCALE = SettingUtil.getCurrentFontSize(context);
-        CommonConstants.CURRENT_LOCALE = SettingUtil.getCurrentLocale(context);
+        Configuration config = context.getResources().getConfiguration();
+        CommonConstants.CURRENT_LOCALE = SettingUtil.getCurrentLocale(context,config.locale.getLanguage());
     }
 
     public void destroy(){
-        if(httpHelper != null) {
-            httpHelper.destroy();
-            httpHelper = null;
+        if(retrofitHelper != null) {
+            retrofitHelper.destroy();
+            retrofitHelper = null;
         }
 
-        if(httpHelper != null) {
+        if(dataBaseHelper != null) {
             dataBaseHelper.destroy();
             dataBaseHelper = null;
         }
@@ -121,8 +123,7 @@ public abstract class AbstractDataManager {
         return dataBaseHelper;
     }
 
-    public HttpHelper getHttpHelper() {
-        return httpHelper;
+    public RetrofitHelper getRetrofitHelper() {
+        return retrofitHelper;
     }
-
 }

@@ -5,4 +5,7 @@
     <string name="settings_title">设置</string>
     <string name="settings_font">字体设置</string>
     <string name="settings_language">语言设置</string>
+    <string name="settings_skin_set">皮肤设置</string>
+    <string name="settings_theme_day_set">日间模式</string>
+    <string name="settings_theme_night_set">夜间模式</string>
 </resources>

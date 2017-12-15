@@ -1,8 +1,8 @@
-/*
 package com.wstro.app.common.data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.wstro.app.common.BuildConfig;
 import com.wstro.app.common.utils.LogUtil;
@@ -10,10 +10,8 @@ import com.wstro.app.common.utils.NetUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -29,81 +27,59 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-*/
 /**
- * Class Note:
- * entrance class to access network with {@link Retrofit}
- * used only by{@link AbstractDataManager} is recommended
- * <p>
- * 使用retrofit进行网络访问的入口类，推荐只在{@link AbstractDataManager}中使用
- *//*
-
-public class HttpHelper {
+ *
+ * 使用retrofit进行网络访问的入口类
+ */
+public class RetrofitHelper {
 
     public static final int DEFAULT_TIMEOUT = DataConstants.DEFAULT_TIMEOUT;
 
-    private HashMap<String, Object> serviceMap;
+    //private HashMap<String, Object> serviceMap;
     private Context context;
     private OkHttpClient okHttpClient;
+    private Retrofit retrofit;
 
-    public HttpHelper(Context context) {
-        //Map used to store RetrofitService
-        serviceMap = new HashMap<>();
+    private String baseUrl;
+    //private final Lock lock = new ReentrantLock();
+
+    public RetrofitHelper(Context context, String baseUrl) {
         this.context = context;
+        this.baseUrl = baseUrl;
         okHttpClient = createOkHttpClient();
+        retrofit = createRetrofit(okHttpClient);
     }
 
     public OkHttpClient getOkHttpClient() {
         return okHttpClient;
     }
 
-    @SuppressWarnings("unchecked")
-    public <S> S getService(Class<S> serviceClass) {
-        if (serviceMap.containsKey(serviceClass.getName())) {
-            return (S) serviceMap.get(serviceClass.getName());
-        } else {
-            Object obj = createService(serviceClass);
-            serviceMap.put(serviceClass.getName(), obj);
-            return (S) obj;
-        }
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 
-    @SuppressWarnings("unchecked")
-    public <S> S getService(Class<S> serviceClass, OkHttpClient client) {
-        if (serviceMap.containsKey(serviceClass.getName())) {
-            return (S) serviceMap.get(serviceClass.getName());
-        } else {
-            Object obj = createService(serviceClass, client);
-            serviceMap.put(serviceClass.getName(), obj);
-            return (S) obj;
-        }
+
+    public <T> T getService(Class<T> tClass) {
+        return retrofit.create(tClass);
     }
 
-    private <S> S createService(Class<S> serviceClass) {
-        OkHttpClient client;
-        if(okHttpClient != null)
-            client = okHttpClient;
-        else
-            client = createOkHttpClient();
-        return createService(serviceClass, client);
-    }
 
     @NonNull
     private OkHttpClient createOkHttpClient() {
         //custom OkHttp
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        //time our
+
+        //timeout
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         builder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-        //cache
-        File httpCacheDirectory = new File(context.getCacheDir(), "OkHttpCache");
-        builder.cache(new Cache(httpCacheDirectory, 10 * 1024 * 1024));
 
+        //token header
         builder.addInterceptor(new HeaderInterceptor());
-        //Interceptor
-        // Log信息拦截器
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        builder.addInterceptor(new TokenInterceptor());
+
+        //Log信息拦截器
+       HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
                 if(BuildConfig.DEBUG) {
@@ -111,39 +87,58 @@ public class HttpHelper {
                 }
             }
         });
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        builder.addInterceptor(interceptor);
+        builder.addInterceptor(logInterceptor);
+
+        //cache
+        File httpCacheDirectory = new File(context.getCacheDir(), "OkHttpCache");
+        builder.cache(new Cache(httpCacheDirectory, 10 * 1024 * 1024));
         builder.addInterceptor(new CacheControlInterceptor());
 
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-
         CookieJar cookieJar = new JavaNetCookieJar(cookieManager);
         builder.cookieJar(cookieJar);
 
         return builder.build();
     }
 
-    private <S> S createService(Class<S> serviceClass, OkHttpClient client) {
-        String end_point = "";
-        try {
-            Field field1 = serviceClass.getField("end_point");
-            end_point = (String) field1.get(serviceClass);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    @NonNull
+    public OkHttpClient createTempOkHttpClient() {
+        //custom OkHttp
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
+        //timeout
+        builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        builder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        builder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
+        //Log信息拦截器
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                if(BuildConfig.DEBUG) {
+                    LogUtil.d("HttpHelper",message);
+                }
+            }
+        });
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(logInterceptor);
+
+        return builder.build();
+    }
+
+
+    private Retrofit createRetrofit(OkHttpClient client){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(end_point)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();
 
-        return retrofit.create(serviceClass);
+        return retrofit;
     }
 
 
@@ -156,18 +151,48 @@ public class HttpHelper {
             Request.Builder requestBuilder = original.newBuilder();
 
             if(DataConstants.accessToken != null) {
-                requestBuilder.addHeader("Authorization", DataConstants.accessToken);
+                String authorization = original.header("Authorization");
+                if(TextUtils.isEmpty(authorization)) {
+                    requestBuilder.addHeader("Authorization", DataConstants.accessToken);
+                }
             }
             Request request = requestBuilder.build();
             return chain.proceed(request);
         }
     }
 
+    private class TokenInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Response response = chain.proceed(request);
+
+            return response;
+        }
+
+        /**
+         * 根据Response，判断Token是否失效
+         *
+         * @param response
+         * @return
+         */
+        private boolean isTokenExpired(Response response) {
+            if (response.code() == 401) {
+                return true;
+            }
+            return false;
+        }
+
+    }
+
+
     private class CacheControlInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            if (!NetUtils.isConnected(context)) {
+            boolean connected = NetUtils.isConnected(context);
+            if (!connected) {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
@@ -175,7 +200,7 @@ public class HttpHelper {
 
             Response response = chain.proceed(request);
 
-            if (NetUtils.isConnected(context)) {
+            if (connected) {
                 int maxAge = 60 * 60; // read from cache for 1 hour
                 response.newBuilder()
                         .removeHeader("Pragma")
@@ -192,11 +217,17 @@ public class HttpHelper {
         }
     }
 
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
     public void destroy(){
-        serviceMap.clear();
-        serviceMap = null;
+        okHttpClient.dispatcher().cancelAll();
         context = null;
         okHttpClient = null;
     }
 }
-*/
