@@ -17,20 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * 日期时间选择控件 使用方法： private EditText inputDate;//需要设置的日期时间文本编辑框 private String
- * initDateTime="2012年9月3日 14:44",//初始日期时间值 在点击事件中使用：
- * inputDate.setOnClickListener(new OnClickListener() {
- *
- * @Override public void onClick(View v) { DateTimePickDialogUtil
- *           dateTimePicKDialog=new
- *           DateTimePickDialogUtil(SinvestigateActivity.this,initDateTime);
- *           dateTimePicKDialog.dateTimePicKDialog(inputDate);
- *
- *           } });
- *
- * @author
- */
 public class DateTimePickDialogUtil implements OnDateChangedListener,
         OnTimeChangedListener {
     private DatePicker datePicker;

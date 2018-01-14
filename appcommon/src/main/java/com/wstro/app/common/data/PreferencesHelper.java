@@ -5,10 +5,8 @@ import android.content.SharedPreferences;
 
 
 /**
- * Class Note:
- * SharedPreference Helper class,used only by{@link AbstractDataManager} is recommended
- *
  * Preference 的帮助类，推荐只在{@link AbstractDataManager}中使用
+ * @author pengl
  */
 public class PreferencesHelper {
     private static final String SETTING = "settings";

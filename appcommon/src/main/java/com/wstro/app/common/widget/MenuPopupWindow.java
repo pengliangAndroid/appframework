@@ -7,12 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 /**
- * ClassName: MenuPopupWindow
- * Function:
- * Date:     2017/8/17 0017 13:47
- *
- * @author Administrator
- * @see
+ * @author pengl
  */
 public abstract class MenuPopupWindow extends PopupWindow {
 

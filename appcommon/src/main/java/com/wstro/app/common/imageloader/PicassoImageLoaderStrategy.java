@@ -4,8 +4,8 @@ import android.content.Context;
 
 
 /**
- * Class Note:
  * using Picasso to load image
+ * @author pengl
  */
 public class PicassoImageLoaderStrategy implements BaseImageLoaderStrategy {
     @Override

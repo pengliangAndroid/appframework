@@ -1,8 +1,5 @@
 package com.wstro.app.common.utils;
 
-/**
- * Created by pengl on 2016/1/13.
- */
 public class ByteUtils {
 
     //byte 与 int 的相互转换

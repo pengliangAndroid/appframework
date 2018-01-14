@@ -1,7 +1,7 @@
 package com.wstro.app.common.data.net.resp;
 
 /**
- * Created by hp2015-1-1 on 2017/5/10.
+ * @author pengl
  */
 public class BaseResp<T> {
     private Meta meta;

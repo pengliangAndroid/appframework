@@ -39,7 +39,7 @@ import com.wstro.app.common.utils.ToastUtils;
 import butterknife.ButterKnife;
 
 /**
- * Description：BaseFragment
+ * @author pengl
  */
 public abstract class BaseFragment extends Fragment {
     protected BaseActivity activity;
@@ -123,7 +123,12 @@ public abstract class BaseFragment extends Fragment {
         DialogUtil.showProgressDialog(getHoldingActivity(),message,cancelable);
     }
 
+    @Deprecated
     public void stopProgressDialog() {
+        DialogUtil.stopProgressDialog();
+    }
+
+    public void dismissProgressDialog() {
         DialogUtil.stopProgressDialog();
     }
 

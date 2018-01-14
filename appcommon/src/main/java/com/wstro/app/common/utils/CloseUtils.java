@@ -5,9 +5,7 @@ import android.database.Cursor;
 import java.io.Closeable;
 import java.io.IOException;
 
-/**
- * Utility methods for closing io streams and database cursors.
- */
+
 public class CloseUtils {
     private CloseUtils() {
     }

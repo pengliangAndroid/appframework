@@ -4,6 +4,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+/**
+ * @author pengl
+ */
 public class ClearTextWatcher implements TextWatcher {
     View view;
 

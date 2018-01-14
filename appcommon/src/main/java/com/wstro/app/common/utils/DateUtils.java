@@ -36,9 +36,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-/**
- * Description：DateUtils
- */
 @SuppressLint("SimpleDateFormat")
 public class DateUtils {
 

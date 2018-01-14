@@ -18,25 +18,6 @@ package com.wstro.app.common.utils.encrpyt;
 
 import java.util.Random;
 
-/**
- * <p>Operations for random <code>String</code>s.</p>
- * <p>Currently <em>private high surrogate</em> characters are ignored. 
- * These are unicode characters that fall between the values 56192 (db80)
- * and 56319 (dbff) as we don't know how to handle them. 
- * High and low surrogates are correctly dealt with - that is if a 
- * high surrogate is randomly chosen, 55296 (d800) to 56191 (db7f) 
- * then it is followed by a low surrogate. If a low surrogate is chosen, 
- * 56320 (dc00) to 57343 (dfff) then it is placed after a randomly 
- * chosen high surrogate. </p>
- *
- * <p>#ThreadSafe#</p>
- * @author Apache Software Foundation
- * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
- * @author Gary Gregory
- * @author Phil Steitz
- * @since 1.0
- * @version $Id: RandomStringUtils.java 1056988 2011-01-09 17:58:53Z niallp $
- */
 public class RandomStringUtils {
 
     /**

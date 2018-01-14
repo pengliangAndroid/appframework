@@ -1,3 +1,4 @@
+/*
 package com.wstro.app.common.data.db;
 
 
@@ -8,9 +9,11 @@ import java.util.List;
 
 import rx.Observable;
 
+*/
 /**
  * Created by pengl on 2016/9/21.
- */
+ *//*
+
 public class DataBaseHelper {
 
     private BaseDaoMaster daoMaster;
@@ -95,3 +98,4 @@ public class DataBaseHelper {
     }
 
 }
+*/

@@ -1,9 +1,8 @@
 package com.wstro.app.common.data.net.resp;
 
 /**
- * Created by pengl on 2016/12/2.
+ * @author pengl
  */
-
 public class HttpResult<R> {
     public String code;
 

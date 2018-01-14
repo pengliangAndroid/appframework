@@ -1,8 +1,5 @@
 package com.wstro.app.common.utils;
 
-/**
- * Created by pengl on 2016/5/25.
- */
 
 import android.content.Context;
 import android.os.Environment;
@@ -11,7 +8,6 @@ import android.text.TextUtils;
 import java.io.File;
 import java.math.BigDecimal;
 
-/** * 本应用数据清除管理器 */
 public class DataCleanManager {
     /**
      * * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * *

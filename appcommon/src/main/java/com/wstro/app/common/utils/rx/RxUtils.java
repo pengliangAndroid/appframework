@@ -24,20 +24,17 @@
 
 package com.wstro.app.common.utils.rx;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * Description：RxUtils
- * Time：2016-01-13 12:08
+ * @author pengl
  */
 public class RxUtils {
-    /**
-     * {@link rx.Observable.Transformer} that transforms the source observable to subscribe in the
-     * io thread and observe on the Android's UI thread.
-     */
-    private static Observable.Transformer ioToMainThreadSchedulerTransformer;
+    private static ObservableTransformer ioToMainThreadSchedulerTransformer;
 
 
     static {
@@ -45,19 +42,11 @@ public class RxUtils {
     }
 
 
-    /**
-     * Get {@link rx.Observable.Transformer} that transforms the source observable to subscribe in
-     * the io thread and observe on the Android's UI thread.
-     * <p>
-     * Because it doesn't interact with the emitted items it's safe ignore the unchecked casts.
-     *
-     * @return {@link rx.Observable.Transformer}
-     */
     @SuppressWarnings("unchecked")
-    private static <T> Observable.Transformer<T, T> createIOToMainThreadScheduler() {
-        return new Observable.Transformer<T, T>() {
+    private static <T> ObservableTransformer<T, T> createIOToMainThreadScheduler() {
+        return new ObservableTransformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<T> observable) {
+            public ObservableSource<T> apply(Observable<T> observable) {
                 return observable
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
@@ -67,7 +56,7 @@ public class RxUtils {
 
 
     @SuppressWarnings("unchecked")
-    public static <T> Observable.Transformer<T, T> applyIOToMainThreadSchedulers() {
+    public static <T> ObservableTransformer<T, T> applyIOToMainThreadSchedulers() {
         return ioToMainThreadSchedulerTransformer;
     }
 }

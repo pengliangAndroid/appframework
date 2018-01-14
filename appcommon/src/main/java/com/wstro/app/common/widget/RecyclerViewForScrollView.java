@@ -7,12 +7,9 @@ import android.view.ViewConfiguration;
 import android.widget.ScrollView;
 
 /**
- * ClassName: RecyclerViewForScrollView
- * Function:  屏蔽Y轴的滑动，解决嵌套垂直RV的事件冲突
- * Date:     2017/2/27 18:55
+ * 屏蔽Y轴的滑动，解决嵌套垂直RV的事件冲突
  *
  * @author pengl
- * @see
  */
 public class RecyclerViewForScrollView extends ScrollView {
     private int downX;

@@ -1,6 +1,8 @@
 package com.wstro.app.common.model;
 
-
+/**
+ * @author pengl
+ */
 public class Font {
 
 

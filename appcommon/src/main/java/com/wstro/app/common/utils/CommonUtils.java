@@ -4,9 +4,7 @@ import android.text.TextUtils;
 
 import java.util.Collection;
 
-/**
- * Created by pengl on 2016/5/20.
- */
+
 public class CommonUtils {
 
     /**

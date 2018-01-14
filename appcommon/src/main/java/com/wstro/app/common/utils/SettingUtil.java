@@ -9,11 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Vincent Woo
- * Date: 2016/1/5
- * Time: 11:23
- */
 public class SettingUtil {
 
 

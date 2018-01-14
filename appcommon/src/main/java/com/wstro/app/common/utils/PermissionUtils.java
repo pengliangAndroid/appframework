@@ -19,9 +19,6 @@ import com.wstro.app.common.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by qianxiaoai on 2016/7/7.
- */
 public class PermissionUtils {
     private static final String TAG = PermissionUtils.class.getSimpleName();
 

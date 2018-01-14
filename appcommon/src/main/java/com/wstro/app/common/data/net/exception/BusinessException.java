@@ -1,12 +1,7 @@
 package com.wstro.app.common.data.net.exception;
 
 /**
- * ClassName: BusinessException
- * Function:
- * Date:     2017/9/11 0011 18:57
- *
- * @author Administrator
- * @see
+ * @author pengl
  */
 public class BusinessException extends Exception {
 

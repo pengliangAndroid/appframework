@@ -6,8 +6,8 @@ import com.wstro.app.common.R;
 
 
 /**
- * Class Note:
  * encapsulation of ImageView,Build Pattern used
+ * @author pengl
  */
 public class ImageLoaderConfig {
     private int type;  // (Big,Medium,small)

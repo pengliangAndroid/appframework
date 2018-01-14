@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 /**
  * 懒加载Fragment
  * 不会在Fragment创建时就就加载数据，1而是只有用户可见时去加载onLoad()，从而不影响App性能
- * Created by pengl on 2016/9/14.
+ * @author pengl
  */
 public abstract class BaseLazyFragment extends BaseFragment {
     //是否用户可见

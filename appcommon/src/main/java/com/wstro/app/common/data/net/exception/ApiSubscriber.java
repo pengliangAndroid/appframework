@@ -5,14 +5,14 @@ import android.content.Context;
 import com.wstro.app.common.data.net.resp.BaseResp;
 import com.wstro.app.common.utils.LogUtil;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
 
 /**
  * Subscriber基类,可以在这里处理client网络连接状况
  * （比如没有，没有4g，没有联网，加载框处理等）
- *
+ * @author pengl
  */
-public abstract class ApiSubscriber<T,R> extends Subscriber<T> {
+public abstract class ApiSubscriber<T,R> implements Observer<T> {
 
     private Context context;
 
@@ -23,22 +23,6 @@ public abstract class ApiSubscriber<T,R> extends Subscriber<T> {
         this.context = context;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        LogUtil.d("ApiSubscriber.onStart()");
-        //接下来可以检查网络连接、弹出框处理等操作
-        /*if (!NetUtils.isConnected(context)) {
-
-            Toast.makeText(context, "当前网络不可用，请检查网络", Toast.LENGTH_SHORT).show();
-            // 一定好主动调用下面这一句,取消本次Subscriber订阅
-            if (!isUnsubscribed()) {
-                unsubscribe();
-            }
-            return;
-        }*/
-    }
 
     @Override
     public void onError(Throwable e) {
@@ -73,7 +57,7 @@ public abstract class ApiSubscriber<T,R> extends Subscriber<T> {
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         LogUtil.d("ApiSubscriber.onCompleted()");
     }
 

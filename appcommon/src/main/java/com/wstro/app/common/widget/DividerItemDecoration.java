@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.wstro.app.common.R;
 
 /**
- * Created by pengl on 2016/9/7.
+ * @author pengl
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

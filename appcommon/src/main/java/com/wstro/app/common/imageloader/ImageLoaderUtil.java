@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import com.wstro.app.common.R;
 
 /**
- * Class Note:
  * use this class to load image,single instance
+ * @author pengl
  */
 public class ImageLoaderUtil {
 

@@ -1,5 +1,8 @@
 package com.wstro.app.common.data.net.exception;
 
+/**
+ * @author pengl
+ */
 public class ApiException extends Exception {
     public int code;
     public String message;

@@ -1,3 +1,4 @@
+/*
 package com.wstro.app.common.data.db;
 
 import android.database.Cursor;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+*/
 /**
  * Created by pengl on 2016/9/21.
- */
+ *//*
+
 public class MigrationHelper {
 
     private static final String CONVERSION_CLASS_NOT_FOUND_EXCEPTION = "MIGRATION HELPER - CLASS DOESN'T MATCH WITH THE CURRENT PARAMETERS";
@@ -153,3 +156,4 @@ public class MigrationHelper {
         return columns;
     }
 }
+*/

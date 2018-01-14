@@ -3,13 +3,6 @@ package com.wstro.app.common.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * ClassName: RegexUtils <br/>
- * Function: TODO ADD FUNCTION. <br/>
- *
- * @author pengl
- * @date 2017/10/7
- */
 public class RegexUtils {
     /**
      * 验证手机号码

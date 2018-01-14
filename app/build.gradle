@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'com.jakewharton.butterknife'
-
+apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
 
     defaultConfig {
         applicationId "com.wstro.app"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -28,6 +28,13 @@ android {
 
 }
 
+greendao {
+    schemaVersion 1
+    daoPackage "com.wstro.app.data.db"
+    targetGenDir "../greendao"
+}
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -40,5 +47,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+
+
     compile 'com.gongwen:swipeback:1.0.2'
+    compile 'org.greenrobot:greendao:3.2.2'
 }

@@ -4,12 +4,7 @@ import com.wstro.app.common.base.BaseActivity;
 import com.wstro.app.common.base.BaseFragment;
 
 /**
- * ClassName: BaseActPresenter
- * Function:
- * Date:     2017/9/7 0007 17:07
- *
- * @author Administrator
- * @see
+ * @author pengl
  */
 public class BaseFrgPresenter<T extends MvpView> extends BasePresenter<T> {
     protected BaseFragment baseFragment;

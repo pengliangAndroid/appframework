@@ -7,9 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Class Note:
- * use {@link LinkedList} to manage your activity stack
- *
+ * @author pengl
  */
 public class BaseActivityManager {
     private static final String TAG = BaseActivityManager.class.getSimpleName();

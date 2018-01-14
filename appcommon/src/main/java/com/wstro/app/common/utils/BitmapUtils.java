@@ -12,9 +12,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by Administrator on 2016/6/17 0017.
- */
 public class BitmapUtils {
     /**
      * 质量压缩

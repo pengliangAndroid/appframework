@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.trello.rxlifecycle.LifecycleTransformer;
-import com.trello.rxlifecycle.android.ActivityEvent;
-import com.trello.rxlifecycle.android.RxLifecycleAndroid;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
 import com.wstro.app.common.CommonConstants;
 import com.wstro.app.common.R;
 import com.wstro.app.common.utils.DialogUtil;
@@ -23,17 +23,22 @@ import com.wstro.app.common.utils.ToastUtils;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.functions.Func1;
-import rx.subjects.BehaviorSubject;
+import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
- * Created by pengl on 2016/9/6.
+ * @author pengl
  */
 public abstract class BaseActivity extends AppCompatActivity {
     private final BehaviorSubject lifecycleSubject = BehaviorSubject.create();
 
     protected Context context;
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         BaseActivityManager.getInstance().addActivity(this);
 
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         lifecycleSubject.onNext(ActivityEvent.CREATE);
 
@@ -77,22 +82,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     @NonNull
     @CheckResult
     public final Observable lifecycle() {
-        return this.lifecycleSubject.asObservable();
+        return this.lifecycleSubject;
     }
 
 
     @NonNull
-    public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final ActivityEvent event) {
-        return new Observable.Transformer<T, T>() {
+    public <T> ObservableTransformer<T, T> bindUntilEvent(@NonNull final ActivityEvent event) {
+        return new ObservableTransformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<T> sourceObservable) {
+            public ObservableSource<T> apply(Observable<T> sourceObservable) {
                 Observable<ActivityEvent> compareLifecycleObservable =
-                        lifecycleSubject.takeFirst(new Func1<ActivityEvent, Boolean>() {
+                        lifecycleSubject.filter(new Predicate<ActivityEvent>() {
                             @Override
-                            public Boolean call(ActivityEvent activityLifeCycleEvent) {
-                                return activityLifeCycleEvent.equals(event);
+                            public boolean test(ActivityEvent activityEvent) throws Exception {
+                                return activityEvent.equals(event);
                             }
-                        });
+                        }).take(1);
                 return sourceObservable.takeUntil(compareLifecycleObservable);
             }
         };
@@ -100,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @NonNull
     @CheckResult
-    public final  LifecycleTransformer bindToLifecycle() {
+    public final LifecycleTransformer bindToLifecycle() {
         return RxLifecycleAndroid.bindActivity(this.lifecycleSubject);
     }
 
@@ -134,10 +139,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         lifecycleSubject.onNext(ActivityEvent.DESTROY);
         super.onDestroy();
 
+        if(unbinder != null)
+            unbinder.unbind();
+
         closeKeyboard();
 
         cancelToast();
-        stopProgressDialog();
+        dismissProgressDialog();
         BaseActivityManager.getInstance().removeActivity(this);
         context = null;
     }
@@ -167,7 +175,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         DialogUtil.showProgressDialog(this,message,cancelable);
     }
 
+    @Deprecated
     public void stopProgressDialog() {
+        DialogUtil.stopProgressDialog();
+    }
+
+    public void dismissProgressDialog() {
         DialogUtil.stopProgressDialog();
     }
 

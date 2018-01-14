@@ -5,7 +5,10 @@ import android.content.Context;
 import com.wstro.app.common.data.AbstractDataManager;
 import com.wstro.app.common.data.PreferencesHelper;
 import com.wstro.app.common.data.RetrofitHelper;
-import com.wstro.app.common.data.db.DataBaseHelper;
+import com.wstro.app.data.db.DataBaseHelper;
+import com.wstro.app.data.db.LoginUser;
+
+import java.util.List;
 
 import hugo.weaving.DebugLog;
 import okhttp3.OkHttpClient;
@@ -31,6 +34,8 @@ public class DataManager extends AbstractDataManager{
 
     private RetrofitHelper retrofitHelper;
 
+    private DataBaseHelper dataBaseHelper;
+
     private DataManager(){}
 
     @DebugLog
@@ -39,11 +44,6 @@ public class DataManager extends AbstractDataManager{
         return new CustomPreferencesHelper(context,SP_NAME);
     }
 
-    @DebugLog
-    @Override
-    protected DataBaseHelper buildDataBaseHelper(Context context) {
-        return new DataBaseHelper(new CustomUpgradeHelper(context,DB_NAME,null,DB_VERSION));
-    }
 
     @DebugLog
     @Override
@@ -69,6 +69,25 @@ public class DataManager extends AbstractDataManager{
         }
 
         return instance;
+    }
+
+    @Override
+    public void init(Context context) {
+        super.init(context);
+        if(dataBaseHelper == null)
+            dataBaseHelper = new DataBaseHelper(context);
+    }
+
+    public void saveLoginUser(LoginUser user) {
+        dataBaseHelper.save(user, dataBaseHelper.getLoginUserDao());
+    }
+
+    public void updateLoginUser(LoginUser user) {
+        dataBaseHelper.update(user, dataBaseHelper.getLoginUserDao());
+    }
+
+    public List<LoginUser> getLoginUsesList() {
+        return dataBaseHelper.queryAll(dataBaseHelper.getLoginUserDao());
     }
 
     public void destroy(){

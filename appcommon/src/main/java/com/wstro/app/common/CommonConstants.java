@@ -3,9 +3,8 @@ package com.wstro.app.common;
 import java.util.Locale;
 
 /**
- * Created by pengl on 2016/11/28.
+ * @author pengl
  */
-
 public class CommonConstants {
     public static final String CURRENT_FONT_PATH = "current_font_path";
     public static final String CURRENT_FONT_SIZE = "current_font_size";

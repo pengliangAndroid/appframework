@@ -1,7 +1,7 @@
 package com.wstro.app.common.mvp;
 
 /**
- * Created by pengl on 2016/9/6.
+ * @author pengl
  */
 public interface Presenter<T extends MvpView> {
     void attachView(T view);

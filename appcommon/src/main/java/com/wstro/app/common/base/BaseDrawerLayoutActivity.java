@@ -14,6 +14,9 @@ import com.wstro.app.common.R;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author pengl
+ */
 public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
 
     protected DrawerLayout drawerLayout;

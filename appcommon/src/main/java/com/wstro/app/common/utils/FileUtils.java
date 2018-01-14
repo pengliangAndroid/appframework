@@ -14,9 +14,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 
-/**
- * Created by Administrator on 2016/6/16 0016.
- */
 public class FileUtils {
     public static final int SIZETYPE_B = 1;// 获取文件大小单位为B的double值
     public static final int SIZETYPE_KB = 2;// 获取文件大小单位为KB的double值

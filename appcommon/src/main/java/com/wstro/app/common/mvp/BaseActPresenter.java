@@ -3,12 +3,7 @@ package com.wstro.app.common.mvp;
 import com.wstro.app.common.base.BaseActivity;
 
 /**
- * ClassName: BaseActPresenter
- * Function:
- * Date:     2017/9/7 0007 17:07
- *
- * @author Administrator
- * @see
+ * @author pengl
  */
 public class BaseActPresenter<T extends MvpView> extends BasePresenter<T> {
     protected BaseActivity baseActivity;

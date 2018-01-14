@@ -10,9 +10,8 @@ import com.wstro.app.common.R;
 
 
 /**
- * Created by pengl on 2016/12/3.
+ * @author pengl
  */
-
 public abstract class BaseAppToolbarActivity extends BaseActivity {
     protected TextView rightText;
     protected TextView leftText;

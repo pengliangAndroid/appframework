@@ -3,25 +3,23 @@ package com.wstro.app.common.utils.rx;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
- * Class Note:
- * use RxJava to implement EventBus
- * (Sticky event @see{http://reactivex.io/documentation/subject.html})
+ * @author pengl
  */
 public class RxBus {
     private static volatile RxBus mDefaultInstance;
-    private final Subject<Object, Object> mBus;
+    private final Subject<Object> mBus;
 
     private final Map<Class<?>, Object> mStickyEventMap;
 
     public RxBus() {
-        mBus = new SerializedSubject<>(PublishSubject.create());
+        mBus = PublishSubject.create().toSerialized();
         mStickyEventMap = new ConcurrentHashMap<>();
     }
 
@@ -84,10 +82,10 @@ public class RxBus {
             final Object event = mStickyEventMap.get(eventType);
 
             if (event != null) {
-                return observable.mergeWith(Observable.create(new Observable.OnSubscribe<T>() {
+                return observable.mergeWith(Observable.create(new ObservableOnSubscribe<T>() {
                     @Override
-                    public void call(Subscriber<? super T> subscriber) {
-                        subscriber.onNext(eventType.cast(event));
+                    public void subscribe(ObservableEmitter<T> emitter) throws Exception {
+                        emitter.onNext(eventType.cast(event));
                     }
                 }));
             } else {

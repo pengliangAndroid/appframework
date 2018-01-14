@@ -8,6 +8,9 @@ import android.view.View;
 
 import com.wstro.app.common.R;
 
+/**
+ * @author pengl
+ */
 public abstract class BaseToolbarActivity extends BaseActivity {
 
     protected Toolbar toolbar;

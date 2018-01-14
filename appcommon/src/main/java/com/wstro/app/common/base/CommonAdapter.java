@@ -6,7 +6,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
-
+/**
+ * @author pengl
+ */
 public abstract class CommonAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder> {
     public CommonAdapter(int layoutResId, List<T> data) {
         super(layoutResId, data);

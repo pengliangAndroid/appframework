@@ -5,12 +5,7 @@ import com.wstro.app.common.R;
 
 
 /**
- * ClassName: CustomLoadMoreView
- * Function:
- * Date:     2017/2/18 15:49
- *
  * @author pengl
- * @see
  */
 public class CustomLoadMoreView extends LoadMoreView {
     @Override

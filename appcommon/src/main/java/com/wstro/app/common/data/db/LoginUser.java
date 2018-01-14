@@ -1,3 +1,4 @@
+/*
 package com.wstro.app.common.data.db;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -5,10 +6,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 
-/**
- * 登录用户表
- * Created by pengl on 2016/12/2.
- */
+
 @Entity
 public class LoginUser {
     @Id
@@ -84,3 +82,4 @@ public class LoginUser {
         return username.equals(user.getUsername());
     }
 }
+*/

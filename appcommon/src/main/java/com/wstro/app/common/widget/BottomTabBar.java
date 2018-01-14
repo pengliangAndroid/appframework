@@ -26,12 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ClassName: BottomTabBar
- * Function:
- * Date:     2017/11/27 20:30
- *
  * @author pengl
- * @see
  */
 public class BottomTabBar extends LinearLayout {
 

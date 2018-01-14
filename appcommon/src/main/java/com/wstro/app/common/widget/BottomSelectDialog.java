@@ -18,12 +18,7 @@ import java.util.ArrayList;
 
 
 /**
- * ClassName: BottomSelectDialog
- * Function:
- * Date:     2017/9/22 0020 14:01
- *
- * @author Administrator
- * @see
+ * @author pengl
  */
 public class BottomSelectDialog extends BaseNiceDialog {
 
