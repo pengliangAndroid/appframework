@@ -1,9 +1,9 @@
-package com.wstro.app.common.data.net.exception;
+package com.wstro.app.data.net.exception;
 
 import android.content.Context;
 
-import com.wstro.app.common.data.net.resp.BaseResp;
 import com.wstro.app.common.utils.LogUtil;
+import com.wstro.app.data.net.resp.BaseResp;
 
 import io.reactivex.Observer;
 
@@ -34,7 +34,7 @@ public abstract class ApiSubscriber<T,R> implements Observer<T> {
             onFail(ExceptionHandle.handleException(e));
         }else {
             //将Throwable 和 未知错误的status code返回
-            onFail(new ApiException(e,ExceptionHandle.ERROR.UNKNOWN));
+            onFail(new ApiException(e, ExceptionHandle.ERROR.UNKNOWN));
         }
 
     }

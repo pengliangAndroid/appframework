@@ -4,6 +4,7 @@
               android:layout_height="wrap_content"
               xmlns:tools="http://schemas.android.com/tools"
               android:background="@drawable/loading_shape"
+              android:alpha="0.8"
               android:gravity="center"
               android:orientation="vertical"
               android:layout_marginLeft="50dp"

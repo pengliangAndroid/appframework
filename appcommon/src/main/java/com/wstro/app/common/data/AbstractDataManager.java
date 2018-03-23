@@ -18,15 +18,16 @@ public abstract class AbstractDataManager {
     public static final String JSON = "application/json;charset=utf-8";
 
     private PreferencesHelper preferencesHelper;
-    private RetrofitHelper retrofitHelper;
     private Gson gson;
 
     protected abstract PreferencesHelper buildPreferencesHelper(Context context);
-    protected abstract RetrofitHelper buildRetrofitHelper(Context context);
+    protected abstract void buildHttpHelper(Context context);
+    protected abstract void buildDatabaseHelper(Context context);
 
     public void init(Context context) {
         preferencesHelper = buildPreferencesHelper(context);
-        retrofitHelper = buildRetrofitHelper(context);
+        buildDatabaseHelper(context);
+        buildHttpHelper(context);
 
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
@@ -37,11 +38,6 @@ public abstract class AbstractDataManager {
     }
 
     public void destroy(){
-        if(retrofitHelper != null) {
-            retrofitHelper.destroy();
-            retrofitHelper = null;
-        }
-
         preferencesHelper = null;
         gson = null;
     }
@@ -85,7 +81,4 @@ public abstract class AbstractDataManager {
         return preferencesHelper;
     }
 
-    public RetrofitHelper getRetrofitHelper() {
-        return retrofitHelper;
-    }
 }

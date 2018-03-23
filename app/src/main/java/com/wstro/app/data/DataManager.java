@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.wstro.app.common.data.AbstractDataManager;
 import com.wstro.app.common.data.PreferencesHelper;
-import com.wstro.app.common.data.RetrofitHelper;
 import com.wstro.app.data.db.DataBaseHelper;
 import com.wstro.app.data.db.LoginUser;
 
@@ -44,13 +43,17 @@ public class DataManager extends AbstractDataManager{
         return new CustomPreferencesHelper(context,SP_NAME);
     }
 
-
     @DebugLog
     @Override
-    protected RetrofitHelper buildRetrofitHelper(Context context) {
+    protected void buildHttpHelper(Context context) {
         retrofitHelper = new RetrofitHelper(context,BASE_DOMAIN);
-        return retrofitHelper;
     }
+
+    @Override
+    protected void buildDatabaseHelper(Context context) {
+        dataBaseHelper = new DataBaseHelper(context);
+    }
+
 
     public OkHttpClient getOKHttpClient(){
         if(retrofitHelper == null)
@@ -74,8 +77,6 @@ public class DataManager extends AbstractDataManager{
     @Override
     public void init(Context context) {
         super.init(context);
-        if(dataBaseHelper == null)
-            dataBaseHelper = new DataBaseHelper(context);
     }
 
     public void saveLoginUser(LoginUser user) {

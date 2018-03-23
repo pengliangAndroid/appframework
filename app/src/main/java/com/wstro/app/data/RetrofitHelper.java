@@ -1,4 +1,4 @@
-package com.wstro.app.common.data;
+package com.wstro.app.data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.wstro.app.common.BuildConfig;
 import com.wstro.app.common.utils.LogUtil;
 import com.wstro.app.common.utils.NetUtils;
+import com.wstro.app.data.net.DataConstants;
 
 import java.io.File;
 import java.io.IOException;

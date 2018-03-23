@@ -1,4 +1,4 @@
-package com.wstro.app.common.data;
+package com.wstro.app.data.net;
 
 /**
  * @author pengl

@@ -1,4 +1,4 @@
-package com.wstro.app.common.data.net.exception;
+package com.wstro.app.data.net.exception;
 
 import android.util.Log;
 
